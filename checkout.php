@@ -43,8 +43,10 @@ if (isset($_POST['submitted'])) {
         mysql_query($purchaseDetailInsert_sql) or die(mysql_error());
     }
     //******************************************************************************************************************************************
-    $message = "Payment is successfully made with Payment ID : " . $payment_id;
+    $message = "Payment is successfully made with Payment ID : " . $payment_id . "<br/>Your download is ready now.";
     messageHelper::setMessage($message, MESSAGE_TYPE_SUCCESS);
+    header("Location:song-download.php");
+    exit();
 } else {
 
     if (count($shoppingCartData) == 0) {
