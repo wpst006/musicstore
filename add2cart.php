@@ -1,6 +1,15 @@
 <?php include('includes/includefiles.php'); ?>
 
 <?php
+//Check if the user is "Logged In"
+$objLogIn=new logIn();
+
+if ($objLogIn->isLoggedIn()==false){
+    messageHelper::setMessage("You are not logged in to the system. Please log in to contiune.",MESSAGE_TYPE_ERROR);
+    header("Location:login.php");
+    exit();
+}
+
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
 } else {

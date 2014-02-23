@@ -42,10 +42,10 @@
                         <li><a href="logout.php">Log Out</a></li>
                     <?php } ?>
                     <li><a href="register.php">Register</a></li>
-                    <li><a href="songs.php">Songs</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
+                    <?php if ($objLogIn->isAdminLogIn()==true){ ?>                    
+                    <li><a href="songs.php">Songs</a></li>        
+                    <?php } ?>
+                    <li><a href="add2Cart.php">Shopping Cart</a></li>
                 </ul>    	
             </div><!-- end of templatemo_menu -->
 
