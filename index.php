@@ -2,7 +2,7 @@
 
 <?php
 //Redirect to "song-display.php" page
-//header("Location: song-display.php"); 
+header("Location: song-display.php"); 
 ?>
 
 <?php include('includes/header.php'); ?>

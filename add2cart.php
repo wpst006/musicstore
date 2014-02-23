@@ -15,8 +15,9 @@ if ($action == 'add2cart') {
     $title = $_GET['title'];
     $artists = $_GET['artists'];
     $price = $_GET['price'];
+    $filename=$_GET['filename'];
 
-    if ($objShoppingCart->insert($song_id, $title, $artists, $price) == 1) {
+    if ($objShoppingCart->insert($song_id, $title, $artists, $price,$filename) == 1) {
         messageHelper::setMessage('Song is successfully added to the shopping cart.',MESSAGE_TYPE_SUCCESS);
     } else {
         messageHelper::setMessage('Song is already in the shopping cart.',MESSAGE_TYPE_ERROR);

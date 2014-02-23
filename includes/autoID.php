@@ -55,14 +55,17 @@ class autoID {
         return str_pad((int) $number, $n, "0", STR_PAD_LEFT);
     }
     
-    static function get_order_id(){
-        return rand(1111111111,9999999999);
+    static function get_payment_id(){
+        return autoID::get_transaction_id();
     }
     
-    static function get_payment_id(){
-        return rand(1111111111,9999999999);
+    static function get_purchase_id(){
+        return autoID::get_transaction_id();
     }
 
+    public static function get_transaction_id(){
+        return rand(1111111111,9999999999);
+    }
 }
 
 ?>

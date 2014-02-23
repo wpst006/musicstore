@@ -124,6 +124,7 @@ function get_artists_name($artists_songs_Array, $song_id) {
                         $link.="&title=" . $row['title'];
                         $link.="&artists=" . $row['artists'];
                         $link.="&price=" . $row['price'];
+                        $link.="&filename=" . $row['filename'];
                         $link.="&action=add2cart";
                         ?>
                         <td class="add2cart-column"><a href="<?php echo $link; ?>"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>

@@ -21,14 +21,14 @@ class ShoppingCart {
      * 1 - Success
      * 2 - Duplicated
      */
-    function insert($song_id,$title,$artists,$price) {
+    function insert($song_id,$title,$artists,$price,$filename) {
         //Function Call to check
         //If the "Item" already existed in "Session"
         $index = $this->indexOf($song_id);
 
         //index=1 means "Item" is not existed in "Session"
         if ($index == -1) {            
-            $_SESSION['shoppingcart'][]=array('song_id'=>$song_id,'title'=>$title,'artists'=>$artists,'price'=>$price); 
+            $_SESSION['shoppingcart'][]=array('song_id'=>$song_id,'title'=>$title,'artists'=>$artists,'price'=>$price,'filename'=>$filename); 
 
             return 1;
         } else {
