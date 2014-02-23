@@ -1,4 +1,4 @@
-<?php include('includes/header.php'); ?>
+<?php include("includes/includefiles.php"); ?>    
 
 <?php
 $song_id = null;
@@ -17,7 +17,7 @@ if (isset($_POST['submitted'])) {
     }
 
     if ($status == true) {
-        $message = "Song is successfully saved with Song ID : " . $song_id;
+        messageHelper::setMessage("Song is successfully saved with Song ID : " . $song_id,MESSAGE_TYPE_SUCCESS);
     }
 } else {
 
@@ -124,22 +124,11 @@ function fillDataForEditMode(&$song_id, &$title, &$price, &$filename, &$artist_i
 }
 ?>
 
-<div id="templatemo_content_wrapper_outer">
-    <div id="templatemo_content_wrapper_inner">
-        <div id="templatemo_content_wrapper">
+<?php include('includes/header.php'); ?>
 
-            <div id="templatemo_content">                
-
-                <?php
-                if (isset($message)) {
-                    if ($error)
-                        echo "<div class='error-message'>$message</div>";
-                    else
-                        echo "<div class='success-message'>$message</div>";
-                }
-                ?> 
-
-                <form role="form" id="songs" name="songs" action="songs.php" method="post" class="form-horizontal">
+<div class="row">
+    <div class="col-md-12">
+        <form role="form" id="songs" name="songs" action="songs.php" method="post" class="form-horizontal">
 
                     <?php if (isset($song_id)) { ?>
                         <div class="form-group">
@@ -216,15 +205,8 @@ function fillDataForEditMode(&$song_id, &$title, &$price, &$filename, &$artist_i
                     </div>
 
                 </form>
-
-            </div> <!-- end of templatemo_content -->                
-
-            <?php include('includes/sidebar.php'); ?>
-
-            <div class="cleaner"></div>
-        </div>
-    </div>
-</div>       
+    </div> 
+</div>                    
 
 <?php include ('includes/footer.php'); ?>
 

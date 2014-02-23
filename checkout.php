@@ -1,4 +1,4 @@
-<?php include('includes/header.php'); ?>
+<?php include('includes/includefiles.php'); ?>    
 
 <?php
 if (isset($_POST['submitted'])) {
@@ -20,6 +20,7 @@ if (isset($_POST['submitted'])) {
     mysql_query($paymentInsert_sql) or die(mysql_error());
     //*********************************************************************					
     $message = "Payment is successfully made with Payment ID : " . $payment_id;
+    messageHelper::setMessage($message,MESSAGE_TYPE_SUCCESS);
 }else{
     $objShoppingCart=new ShoppingCart();
     $shoppingCartData=$objShoppingCart->getShoppingCart();
@@ -33,25 +34,8 @@ if (isset($_POST['submitted'])) {
 }
 ?>
 
-<div id="templatemo_content_wrapper_outer">
-    <div id="templatemo_content_wrapper_inner">
-        <div id="templatemo_content_wrapper">
+<?php include('includes/header.php'); ?>
 
-            <div id="templatemo_content">                
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <?php
-                        if (isset($message)) {
-                            if ($error) {
-                                echo messageHelper::showErrorMessage($message);
-                            } else {
-                                echo messageHelper::showSuccessMessage($message);
-                            }
-                        }
-                        ?> 
-                    </div>
-                </div>
 
                 <div class="row">
                     <div class="col-md-12">
@@ -118,16 +102,7 @@ if (isset($_POST['submitted'])) {
                             </div>
                         </form>
                     </div>
-                </div>                
-
-            </div> <!-- end of templatemo_content -->                
-
-            <?php include('includes/sidebar.php'); ?>
-
-            <div class="cleaner"></div>
-        </div>
-    </div>
-</div>       
+                </div>                           
 
 <script type="text/javascript">
     $("#checkout").validate({

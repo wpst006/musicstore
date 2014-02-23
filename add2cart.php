@@ -1,4 +1,4 @@
-<?php include('includes/header.php'); ?>
+<?php include('includes/includefiles.php'); ?>
 
 <?php
 if (isset($_GET['action'])) {
@@ -17,23 +17,25 @@ if ($action == 'add2cart') {
     $price = $_GET['price'];
 
     if ($objShoppingCart->insert($song_id, $title, $artists, $price) == 1) {
-        $message = messageHelper::showSuccessMessage('Song is successfully added to the shopping cart.');
+        messageHelper::setMessage('Song is successfully added to the shopping cart.',MESSAGE_TYPE_SUCCESS);
     } else {
-        $message = messageHelper::showErrorMessage('Song is already in the shopping cart.');
+        messageHelper::setMessage('Song is already in the shopping cart.',MESSAGE_TYPE_ERROR);
     }
 }
 
 if ($action == 'clear') {
     $objShoppingCart->clear();
-    $message = messageHelper::showInfoMessage('Shopping Cart is cleared.');
+    messageHelper::setMessage('Shopping Cart is cleared.',MESSAGE_TYPE_INFO);
 }
 
 if ($action == 'remove') {
     $song_id = $_GET['song_id'];
     $objShoppingCart->remove($song_id);
-    $message = messageHelper::showInfoMessage('Song is successfully removed from the shopping cart.');
+    messageHelper::setMessage('Song is successfully removed from the shopping cart.',MESSAGE_TYPE_INFO);
 }
 ?>
+
+<?php include('includes/header.php'); ?>
 
 <link href="css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -66,14 +68,6 @@ if ($action == 'remove') {
     }  
 </style>
 
-<div id="templatemo_content_wrapper_outer">
-    <div id="templatemo_content_wrapper_inner">
-        <div id="templatemo_content_wrapper">
-
-            <div id="templatemo_content">                
-                <?php
-                echo $message;
-                ?>
                 <div class="row">
                     <div class="col-md-12 text-right">
                         <a href="song-display.php" class="btn btn-warning">Go to Home Page</a>
@@ -113,14 +107,7 @@ if ($action == 'remove') {
                     <div class="col-md-12 text-right">
                         <p><b>Sub Total : </b><?php echo $objShoppingCart->getSubTotal(); ?></p>
                     </div>
-                </div>
-
-            </div> <!-- end of templatemo_content -->                
-
-            <div class="cleaner"></div>
-        </div>
-    </div>
-</div>       
+                </div>           
 
 <?php include ('includes/footer.php'); ?>
 

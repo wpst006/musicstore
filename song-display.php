@@ -1,4 +1,4 @@
-<?php include('includes/header.php'); ?>
+<?php include('includes/includefiles.php'); ?>
 
 <?php
 $artists_songs_Array = get_artists_songs_Array();
@@ -96,47 +96,42 @@ function get_artists_name($artists_songs_Array, $song_id) {
     }
 </style>
 
-<div id="templatemo_content_wrapper_outer">
-    <div id="templatemo_content_wrapper_inner">
-        <div id="templatemo_content_wrapper">
+<?php include('includes/header.php'); ?>               
 
-            <div id="templatemo_content">                
+<div class="row">
+    <div class="col-md-12">
 
-                <table id="song_table">
-                    <thead>
-                        <tr>
-                            <th class="title-column">Title</th>
-                            <th class="artist-column">Artists</th>
-                            <th class="price-column">Price</th>
-                            <th class="downloaded-count-column">Downloaded</th>
-                            <th class="download-column"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($song_Array as $row) { ?>
-                            <tr>
-                                <td class="title-column"><?php echo $row['title']; ?></td>
-                                <td class="artist-column"><?php echo $row['artists']; ?></td>
-                                <td class="price-column"><?php echo $row['price']; ?></td>
-                                <td class="downloaded-count-column"><?php echo $row['downloaded']; ?></td>
-                                <!--<td class="download-column"><a href="downloadfile.php?filetype=song&file=<?php echo $row['filename']; ?>">download</a></td>-->
-                                <?php
-                                $link = "add2cart.php?song_id=" . $row['song_id'];
-                                $link.="&title=" . $row['title'];
-                                $link.="&artists=" . $row['artists'];
-                                $link.="&price=" . $row['price'];
-                                $link.="&action=add2cart";
-                                ?>
-                                <td class="add2cart-column"><a href="<?php echo $link; ?>"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
+        <table id="song_table">
+            <thead>
+                <tr>
+                    <th class="title-column">Title</th>
+                    <th class="artist-column">Artists</th>
+                    <th class="price-column">Price</th>
+                    <th class="downloaded-count-column">Downloaded</th>
+                    <th class="download-column"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($song_Array as $row) { ?>
+                    <tr>
+                        <td class="title-column"><?php echo $row['title']; ?></td>
+                        <td class="artist-column"><?php echo $row['artists']; ?></td>
+                        <td class="price-column"><?php echo $row['price']; ?></td>
+                        <td class="downloaded-count-column"><?php echo $row['downloaded']; ?></td>
+                        <!--<td class="download-column"><a href="downloadfile.php?filetype=song&file=<?php echo $row['filename']; ?>">download</a></td>-->
+                        <?php
+                        $link = "add2cart.php?song_id=" . $row['song_id'];
+                        $link.="&title=" . $row['title'];
+                        $link.="&artists=" . $row['artists'];
+                        $link.="&price=" . $row['price'];
+                        $link.="&action=add2cart";
+                        ?>
+                        <td class="add2cart-column"><a href="<?php echo $link; ?>"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
 
-            </div> <!-- end of templatemo_content -->                            
-
-            <div class="cleaner"></div>
-        </div>
     </div>
 </div>       
 

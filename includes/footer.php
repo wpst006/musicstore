@@ -1,10 +1,20 @@
 </div> <!-- end of templatemo_content -->                
 
-            <?php include('includes/sidebar.php'); ?>
+<?php
+$currentPageName= pageHelper::getCurrentPageName();
 
-            <div class="cleaner"></div>
-        </div>
-    </div>
+$hasSideBar=true;
+
+$hasSideBar=!in_array($currentPageName, array('song-display.php','add2cart.php'));
+
+if ($hasSideBar == true) {
+    include('includes/sidebar.php');
+}
+?>
+
+<div class="cleaner"></div>
+</div>
+</div>
 </div>       
 
 <div id="templatemo_footer_wrapper">
@@ -17,11 +27,11 @@
             <li><a href="gallery.html">Gallery</a></li>
             <li class="last_menu"><a href="contact.html">Contact</a></li>
         </ul>
-    
+
         Copyright © 2048 <a href="#">Your Company Name</a> | 
         <a href="http://www.iwebsitetemplate.com" target="_parent">Website Templates</a> by <a href="http://www.templatemo.com" target="_parent">Free CSS Templates</a>
-    
-</div> <!-- end of footer -->
+
+    </div> <!-- end of footer -->
 
 </div> <!-- end of footer_wrapper -->
 
