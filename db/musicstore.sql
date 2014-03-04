@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 23, 2014 at 01:31 PM
+-- Generation Time: Mar 04, 2014 at 07:28 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `artists_songs` (
   `artist_id` varchar(15) NOT NULL,
   `song_id` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `artists_songs`
@@ -69,7 +69,8 @@ INSERT INTO `artists_songs` (`id`, `artist_id`, `song_id`) VALUES
 (11, 'ART000001', 'SNG000004'),
 (12, 'ART000004', 'SNG000004'),
 (13, 'ART000006', 'SNG000005'),
-(14, 'ART000006', 'SNG000006');
+(14, 'ART000006', 'SNG000006'),
+(15, 'ART000006', 'SNG000007');
 
 -- --------------------------------------------------------
 
@@ -103,7 +104,7 @@ INSERT INTO `members` (`member_id`, `firstname`, `lastname`) VALUES
 CREATE TABLE IF NOT EXISTS `payments` (
   `payment_id` varchar(15) NOT NULL,
   `paymentdate` datetime NOT NULL,
-  `order_id` varchar(15) NOT NULL,
+  `purchase_id` varchar(15) NOT NULL,
   `cardno` varchar(30) NOT NULL,
   `cardtype` varchar(10) NOT NULL,
   `cardholdername` varchar(30) NOT NULL,
@@ -115,8 +116,10 @@ CREATE TABLE IF NOT EXISTS `payments` (
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`payment_id`, `paymentdate`, `order_id`, `cardno`, `cardtype`, `cardholdername`, `securitycode`) VALUES
-('1291078532', '2014-02-10 23:44:23', '1268023798', 'a', 'mastercard', 'a', 'a');
+INSERT INTO `payments` (`payment_id`, `paymentdate`, `purchase_id`, `cardno`, `cardtype`, `cardholdername`, `securitycode`) VALUES
+('1179271741', '2014-03-04 19:27:19', '1370907942', 'a', 'mastercard', 'a', 'a'),
+('1191031754', '2014-02-24 01:37:56', '1302783804', 'b', 'mastercard', 'b', 'b'),
+('1229441104', '2014-02-24 01:24:24', '1145223358', 'a', 'mastercard', 'a', 'a');
 
 -- --------------------------------------------------------
 
@@ -125,11 +128,23 @@ INSERT INTO `payments` (`payment_id`, `paymentdate`, `order_id`, `cardno`, `card
 --
 
 CREATE TABLE IF NOT EXISTS `purchasedetails` (
+  `purcahsedetail_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `purchase_id` varchar(15) NOT NULL,
   `song_id` varchar(15) NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`purchase_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`purcahsedetail_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `purchasedetails`
+--
+
+INSERT INTO `purchasedetails` (`purcahsedetail_id`, `purchase_id`, `song_id`, `price`) VALUES
+(3, '1145223358', 'SNG000003', '3.00'),
+(4, '1145223358', 'SNG000001', '32.00'),
+(5, '1302783804', 'SNG000007', '33.00'),
+(6, '1302783804', 'SNG000002', '3.00'),
+(7, '1370907942', 'SNG000006', '3.00');
 
 -- --------------------------------------------------------
 
@@ -144,6 +159,15 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   `total` decimal(10,2) NOT NULL,
   PRIMARY KEY (`purchase_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `purchases`
+--
+
+INSERT INTO `purchases` (`purchase_id`, `purchasedate`, `member_id`, `total`) VALUES
+('1145223358', '2014-02-24 01:24:24', 'MEM000002', '35.00'),
+('1302783804', '2014-02-24 01:37:56', 'MEM000002', '36.00'),
+('1370907942', '2014-03-04 19:27:19', 'MEM000002', '3.00');
 
 -- --------------------------------------------------------
 
@@ -172,7 +196,8 @@ INSERT INTO `songs` (`song_id`, `title`, `filename`, `price`, `uploaded_date`, `
 ('SNG000003', 'asf', '13 Pyout Sone Yin Khwin.mp3', '3.00', '2014-01-25 10:57:06', 0, 0),
 ('SNG000004', 'rrrrrrrr', 'lay phyu (2).MP3', '32.00', '2014-01-25 22:03:38', 0, 0),
 ('SNG000005', 'asd', '', '3.00', '2014-02-09 21:52:56', 0, 0),
-('SNG000006', 'a', '', '3.00', '2014-02-09 21:54:41', 0, 0);
+('SNG000006', 'a', '', '3.00', '2014-02-09 21:54:41', 0, 0),
+('SNG000007', 'abc', '05 Kyar Par Tae Kwar.mp3', '33.00', '2014-02-23 19:18:40', 0, 0);
 
 -- --------------------------------------------------------
 

@@ -145,7 +145,7 @@ function get_artists_name($artists_songs_Array, $song_id) {
             //"sPaginationType": "bootstrap",
             "sPaginationType": "full_numbers",
             "bLengthChange": false,
-            "bFilter": false,
+            "bFilter": true,
             "bInfo": false,
         } );
     });
