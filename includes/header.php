@@ -10,6 +10,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
         <link href="css/custom-style.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-datetimepicker.min.css" />
     </head>
     <body>
         <div id="templatemo_header_wrapper">
@@ -17,18 +18,15 @@
             <div id="templatemo_header">
 
                 <div id="site_title">
-                    <h1><a href="http://www.templatemo.com" target="_parent">
-                            <img src="images/templatemo_logo.png" alt="Web Templates" />
-                            <span>Online Music Store</span>
-                        </a></h1>
+                    <h1><a href="index.php">Online Music Store</a></h1>
                 </div>
-
+<!--
                 <div id="search_box">
                     <form action="#" method="get">
                         <input type="text" value="" name="q" size="10" id="searchfield" title="searchfield" onfocus="clearText(this)" onblur="clearText(this)" />
                         <input type="submit" name="Search" value="Search" alt="Search" id="searchbutton" title="Search" />
                     </form>
-                </div>
+                </div>-->
 
                 <div class="cleaner"></div>
             </div><!-- end of header -->
@@ -42,10 +40,12 @@
                         <li><a href="logout.php">Log Out</a></li>
                     <?php } ?>
                     <li><a href="register.php">Register</a></li>
-                    <?php if ($objLogIn->isAdminLogIn()==true){ ?>                    
-                    <li><a href="songs.php">Songs</a></li>        
+                    <?php if ($objLogIn->isAdminLogIn() == true) { ?>                    
+                        <li><a href="songs.php">Songs</a></li>        
                     <?php } ?>
+                    <?php if ($objLogIn->isMemberLogIn()==true){ ?>
                     <li><a href="add2Cart.php">Shopping Cart</a></li>
+                    <?php } ?>
                 </ul>    	
             </div><!-- end of templatemo_menu -->
 
@@ -56,52 +56,45 @@
                         <div class="cs_slider">
 
                             <div class="cs_article">
-
                                 <div class="left">
-                                    <h2>Suspendisse sed odio ut mi auctor blandit</h2>
-                                    <p>Aliquam erat volutpat. Maecenas eget nisl id nisi consequat ultrices et  eu nunc. Praesent ac leo vel dolor rutrum egestas. Aliquam suscipit  vulputate arcu, quis congue ipsum laoreet sed.</p>
-
-                                    <div class="button"><a href="#">Read more</a></div>
+                                    <h2>Mariah Carey - The Emancipation of Mimi</h2>
+                                    <p>The Emancipation of Mimi is the tenth studio album by American singer and songwriter Mariah Carey, released in the United States on April 12, 2005, through Island Records</p>
                                	</div>
                                 <div class="right">
-                                    <a href="http://www.templatemo.com/page/1" target="_parent"><img src="images/slider/templatemo_slide02.jpg" alt="Template 1" /></a>
+                                    <a href="#"><img src="slideshow/mariah.png" alt="Template 1" /></a>
+                                </div>
+                            </div><!-- End cs_article -->
+
+                            <div class="cs_article">
+
+                                <div class="left">
+                                    <h2>Monster - Eminem & Rihanna</h2>
+                                    <p>"The Monster" is a song by American rapper Eminem, featuring guest vocals from Barbadian singer Rihanna, taken from Eminem's eighth studio album The Marshall Mathers LP 2.</p>
+                               	</div>
+                                <div class="right">
+                                    <a href="#"><img src="slideshow/monster.png" alt="Template 1" /></a>
                                 </div>
 
                             </div><!-- End cs_article -->
 
                             <div class="cs_article">
                                 <div class="left">
-                                    <h2>Suspendisse sed odio ut mi auctor blandit</h2>
-                                    <p>Integer sed nisi sapien, ut gravida mauris. Nam et tellus libero. Cras purus libero, dapibus nec rutrum in, dapibus nec risus. Ut interdum mi sit amet magna feugiat auctor. </p>
-
-                                    <div class="button"><a href="#">Read more</a></div>
-                               	</div>
+                                    <h2>LMFAO - Party Rock Anthem</h2>
+                                    <p>"Party Rock Anthem" is a song performed by American dance pop recording duo LMFAO, featuring British singer Lauren Bennett and GoonRock. It was released as the first single from their second album, Sorry for Party Rocking in 2011.</p>
+                                </div>
                                 <div class="right">
-                                    <a href="http://www.templatemo.com/page/2" target="_parent"><img src="images/slider/templatemo_slide01.jpg" alt="Template 2" /></a>
+                                    <a href="#"><img src="slideshow/lmfao.png" alt="Template 1" /></a>
                                 </div>
                             </div><!-- End cs_article -->
+                            
 
                             <div class="cs_article">
                                 <div class="left">
-                                    <h2>Suspendisse sed odio ut mi auctor blandit</h2>
-                                    <p>Integer sed nisi sapien, ut gravida mauris. Nam et tellus libero. Cras purus libero, dapibus nec rutrum in, dapibus nec risus. Ut interdum mi sit amet magna feugiat auctor. </p>
-
-                                    <div class="button"><a href="#">Read more</a></div>
-                               	</div>
-                                <div class="right">
-                                    <a href="http://www.templatemo.com/page/3" target="_parent"><img src="images/slider/templatemo_slide03.jpg" alt="Template 3" /></a>
+                                    <h2>Backstreet Boys - Millennium</h2>
+                                    <p>Millennium is the third album (second in the United States) by American boy band Backstreet Boys. It was a highly anticipated follow-up to both their U.S. debut album, and their second internationally released album.</p>
                                 </div>
-                            </div><!-- End cs_article -->
-
-                            <div class="cs_article">
-                                <div class="left">
-                                    <h2>Suspendisse sed odio ut mi auctor blandit</h2>
-                                    <p>Integer sed nisi sapien, ut gravida mauris. Nam et tellus libero. Cras purus libero, dapibus nec rutrum in, dapibus nec risus. Ut interdum mi sit amet magna feugiat auctor. </p>
-
-                                    <div class="button"><a href="#">Read more</a></div>
-                               	</div>
                                 <div class="right">
-                                    <a href="http://www.templatemo.com/page/4" target="_parent"><img src="images/slider/templatemo_slide04.jpg" alt="Template 4" /></a>
+                                    <a href="#"><img src="slideshow/backstreet.png" alt="Template 1" /></a>
                                 </div>
                             </div><!-- End cs_article -->
 
@@ -128,7 +121,9 @@
                 <script src="js/chili/recipes.js" type="text/javascript"></script>-->
                 <script src="js/chosen/chosen.jquery.min.js" type="text/javascript"></script>                                
                 <script src="js/chosen/chosen.proto.min.js" type="text/javascript"></script>
-                <script src="js/bootstrap.min.js" type="text/javascript"></script>                
+                <script src="js/bootstrap.min.js" type="text/javascript"></script>      
+                <script type="text/javascript" src="js/moment-2.4.0.js"></script>
+                <script type="text/javascript" src="js/bootstrap-datetimepicker.js"></script>
                 <div class="cleaner"></div>
 
             </div>
@@ -140,6 +135,10 @@
                 <div id="templatemo_content_wrapper">
 
                     <div id="templatemo_content">
+
+                        <?php if (isset($pageTitle)) { ?>
+                            <div class="my-page-heading"><?php echo $pageTitle; ?></div>
+                        <?php } ?>
 
                         <?php
                         $message = messageHelper::getMessage();

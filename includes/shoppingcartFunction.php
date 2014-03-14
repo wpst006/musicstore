@@ -3,7 +3,7 @@
 class ShoppingCart {
 
     //Constructor
-    public function _construct() {
+    public function __construct() {
         if (!isset($_SESSION['shoppingcart'])) {
             //Creating Session "Array"
             $_SESSION['shoppingcart'] = array();

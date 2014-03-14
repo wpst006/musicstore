@@ -1,5 +1,4 @@
 <?php include("includes/includefiles.php"); ?>
-
 <?php
 if (isset($_POST['submitted'])) {
     //**************************************************************************************
@@ -19,7 +18,7 @@ if (isset($_POST['submitted'])) {
     }
 }
 ?>
-
+<?php $pageTitle="Log In"; ?>
 <?php include('includes/header.php'); ?>
 
 <div class="row">

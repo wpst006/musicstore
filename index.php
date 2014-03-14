@@ -1,5 +1,4 @@
 <?php include("includes/includefiles.php"); ?>
-
 <?php
 //Redirect to "song-display.php" page
 header("Location: song-display.php"); 

@@ -11,4 +11,4 @@ require_once("includes/pageHelper.php");
 
 $objLogIn = new logIn;
 $isLoggedIn = $objLogIn->isLoggedIn();
-?> 
+?>

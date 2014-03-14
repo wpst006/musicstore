@@ -80,9 +80,9 @@ if ($action == 'remove') {
 
                 <div class="row">
                     <div class="col-md-12 text-right">
-                        <a href="song-display.php" class="btn btn-warning">Go to Home Page</a>
+                        <a href="song-display.php" class="btn btn-primary">Go to Home Page</a>
                         <a href="checkout.php" class="btn btn-primary">Check Out</a>
-                        <a href="add2cart.php?action=clear" class="btn btn-danger">Clear</a>
+                        <a href="add2cart.php?action=clear" class="btn btn-primary">Clear</a>
                     </div>
                 </div>
 
