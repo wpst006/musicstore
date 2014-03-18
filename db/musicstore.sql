@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 18, 2014 at 08:28 AM
+-- Generation Time: Mar 19, 2014 at 12:05 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -42,7 +42,8 @@ CREATE TABLE IF NOT EXISTS `albums` (
 INSERT INTO `albums` (`album_id`, `title`, `publishing_date`, `publisher`, `cd_dvd`) VALUES
 ('ALM_000001', 'Eminem Album', '2014-03-16 00:00:00', 'Publisher Eminem', 'CD'),
 ('ALM_000002', 'Backstreet Boy Album', '2014-03-16 00:00:00', 'Backstreet Boy Publisher', 'CD'),
-('ALM_000003', 'Mariah Carey Album', '2014-03-16 00:00:00', 'Mariah Carey Publisher', 'CD');
+('ALM_000003', 'Mariah Carey Album', '2014-03-16 00:00:00', 'Mariah Carey Publisher', 'CD'),
+('ALM_000004', '333333', '2014-03-18 00:00:00', 'aaa', 'DVD');
 
 -- --------------------------------------------------------
 
@@ -80,18 +81,20 @@ CREATE TABLE IF NOT EXISTS `artists_songs` (
   `artist_id` varchar(15) NOT NULL,
   `song_id` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
 -- Dumping data for table `artists_songs`
 --
 
 INSERT INTO `artists_songs` (`id`, `artist_id`, `song_id`) VALUES
-(7, 'ART000006', 'SNG_000001'),
-(8, 'ART000001', 'SNG_000001'),
-(9, 'ART000006', 'SNG_000002'),
-(10, 'ART000002', 'SNG_000003'),
-(11, 'ART000006', 'SNG_000004');
+(12, 'ART000006', 'SNG_000002'),
+(15, 'ART000002', 'SNG_000003'),
+(19, 'ART000006', 'SNG_000004'),
+(20, 'ART000006', 'SNG_000001'),
+(21, 'ART000001', 'SNG_000001'),
+(22, 'ART000003', 'SNG_000005'),
+(23, 'ART000002', 'SNG_000006');
 
 -- --------------------------------------------------------
 
@@ -126,18 +129,21 @@ CREATE TABLE IF NOT EXISTS `authors_songs` (
   `author_id` varchar(15) NOT NULL,
   `song_id` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `authors_songs`
 --
 
 INSERT INTO `authors_songs` (`id`, `author_id`, `song_id`) VALUES
-(5, 'AUT_000001', 'SNG_000001'),
-(6, 'AUT_000002', 'SNG_000001'),
-(7, 'AUT_000002', 'SNG_000002'),
-(8, 'AUT_000001', 'SNG_000003'),
-(9, 'AUT_000002', 'SNG_000004');
+(10, 'AUT_000002', 'SNG_000002'),
+(13, 'AUT_000001', 'SNG_000003'),
+(17, 'AUT_000002', 'SNG_000004'),
+(18, 'AUT_000001', 'SNG_000001'),
+(19, 'AUT_000002', 'SNG_000001'),
+(20, 'AUT_000003', 'SNG_000005'),
+(21, 'AUT_000002', 'SNG_000006'),
+(22, 'AUT_000003', 'SNG_000006');
 
 -- --------------------------------------------------------
 
@@ -183,6 +189,13 @@ CREATE TABLE IF NOT EXISTS `payments` (
   PRIMARY KEY (`payment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`payment_id`, `paymentdate`, `purchase_id`, `cardno`, `cardtype`, `cardholdername`, `securitycode`) VALUES
+('1239440308', '2014-03-18 22:58:40', '1300904392', 'sdf', 'mastercard', 'asfa', 'asdf');
+
 -- --------------------------------------------------------
 
 --
@@ -195,7 +208,15 @@ CREATE TABLE IF NOT EXISTS `purchasedetails` (
   `song_id` varchar(15) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`purcahsedetail_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `purchasedetails`
+--
+
+INSERT INTO `purchasedetails` (`purcahsedetail_id`, `purchase_id`, `song_id`, `price`) VALUES
+(1, '1300904392', 'SNG_000004', '5.00'),
+(2, '1300904392', 'SNG_000002', '3.00');
 
 -- --------------------------------------------------------
 
@@ -210,6 +231,13 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   `total` decimal(10,2) NOT NULL,
   PRIMARY KEY (`purchase_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `purchases`
+--
+
+INSERT INTO `purchases` (`purchase_id`, `purchasedate`, `member_id`, `total`) VALUES
+('1300904392', '2014-03-18 22:58:40', 'MEM_000002', '8.00');
 
 -- --------------------------------------------------------
 
@@ -234,10 +262,12 @@ CREATE TABLE IF NOT EXISTS `songs` (
 --
 
 INSERT INTO `songs` (`song_id`, `title`, `length`, `album_id`, `song_type`, `filename`, `unitprice`, `vote_count`) VALUES
-('SNG_000001', 'song title', '3 min', 'ALM_000001', 'Pop', '02 A Lwan Thint Pa Chi.mp3', '5.00', 0),
-('SNG_000002', 'a', 'asdf', 'ALM_000001', 'Rock', 'lay phyu (2).MP3', '3.00', 0),
-('SNG_000003', 'adsf', 'sadf', 'ALM_000001', 'Pop', '10 Chit Chin A Lin Kar - Feat - Aung La.mp3', '3.00', 0),
-('SNG_000004', 'sadf', 'asdf', 'ALM_000001', 'Rap', 'lay phyu (2).MP3', '5.00', 0);
+('SNG_000001', 'dont want to close my eyes', '3 min', 'ALM_000001', 'Pop', '02 A Lwan Thint Pa Chi.mp3', '5.00', 0),
+('SNG_000002', 'Love the way you lie', 'asdf', 'ALM_000001', 'Rock', 'lay phyu (2).MP3', '3.00', 0),
+('SNG_000003', 'I will be missing you', 'sadf', 'ALM_000001', 'Pop', '10 Chit Chin A Lin Kar - Feat - Aung La.mp3', '3.00', 0),
+('SNG_000004', 'qqqq', 'asdf', 'ALM_000001', 'Rap', 'lay phyu (2).MP3', '5.00', 0),
+('SNG_000005', 'aaaaaa', '23', 'ALM_000001', 'Rap', 'Aqua - Good Morning Sunshine.mp3', '4.00', 0),
+('SNG_000006', 'aaa', '23', 'ALM_000002', 'Rock', 'Aqua - Good Morning Sunshine.mp3', '3.00', 0);
 
 -- --------------------------------------------------------
 
