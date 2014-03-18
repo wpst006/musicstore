@@ -2,7 +2,7 @@
 <?php require_once("includes/authorHelper.php"); ?>    
 
 <?php
-$album_id = $_GET['album_id'];
+$album_id =null;
 $song_id=null;
 $title = '';
 $filename = '';
@@ -20,6 +20,8 @@ if (isset($_POST['submitted'])) {
     }
 } else {
 
+    $album_id=$_GET['album_id'];
+    
     if (isset($_GET['song_id'])) {
         $song_id=$_GET['song_id'];
         fillDataForEditMode($song_id, $title, $length,$song_type,$unitprice, $filename, $artist_ids_string,$author_ids_string,$song_type_selected);
@@ -65,13 +67,14 @@ function saveNewSong(&$song_id) {
     }
     //******************************************************************************************************************
     messageHelper::setMessage("Song is successfully saved with Song ID : " . $song_id, MESSAGE_TYPE_SUCCESS);
-    header("Location:index.php");
+    header("Location:song-display.php?album_id=". $album_id);
     exit();
 }
 
 function updateSong(&$song_id) {
     //Filling Data
     $song_id = $_POST['song_id'];
+    $album_id=$_POST['album_id'];
     $title = $_POST['title'];
     $length=$_POST['length'];
     $song_type=$_POST['song_type'];  
@@ -118,7 +121,7 @@ function updateSong(&$song_id) {
     }
     //******************************************************************************************************************
     messageHelper::setMessage("Song is successfully saved with Song ID : " . $song_id, MESSAGE_TYPE_SUCCESS);
-    header("Location:songs.php?album_id=". $_GET['album_id'] . "&song_id=" . $song_id);
+    header("Location:song-display.php?album_id=". $album_id);
     exit();
 }
 

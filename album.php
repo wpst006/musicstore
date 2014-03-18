@@ -17,7 +17,7 @@ if (isset($_POST['submitted'])) {
 
     if ($status == true) {
         messageHelper::setMessage("Album is successfully saved with Album ID : " . $album_id, MESSAGE_TYPE_SUCCESS);
-        header("Location:album.php?album_id=" . $album_id);
+        header("Location:albums-display.php");
         exit();
     }
 } else {
@@ -130,15 +130,26 @@ function fillDataForEditMode($album_id,&$title,&$publishing_date,&$publisher,&$c
             <div class="form-group">
                 <div class="col-sm-3 control-label"></div>
                 <div class="col-sm-9">
+                    
+                    <?php 
+                    $cd_checked="";
+                    $dvd_checked='';
+                    
+                    if ($cd_dvd=='DVD'){ 
+                          $dvd_checked="checked";
+                    }else{
+                        $cd_checked="checked";
+                    }
+                    ?>
                     <div class="radio-inline">
                         <label>
-                            <input type="radio" name="cd_dvd" id="optcd" value="CD" checked>
+                            <input type="radio" name="cd_dvd" id="optcd" value="CD" <?php echo $cd_checked; ?>>
                             CD
                         </label>
                     </div>
                     <div class="radio-inline">
                         <label>
-                            <input type="radio" name="cd_dvd" id="optdvd" value="DVD">
+                            <input type="radio" name="cd_dvd" id="optdvd" value="DVD" <?php echo $dvd_checked; ?>>
                             DVD
                         </label>
                     </div>

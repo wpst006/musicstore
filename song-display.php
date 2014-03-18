@@ -110,12 +110,12 @@ function get_authors_name($authors_songs_Array, $song_id) {
 <style type="text/css">
     #templatemo_content{
         float:none;
-        width:100%;
+        width:100% !important;
     }
 
     .dataTables_wrapper {
         margin: 0 auto;
-        width: 900px;
+        width: 100%;
     }
 
     #song_table .title-column{
@@ -166,7 +166,9 @@ function get_authors_name($authors_songs_Array, $song_id) {
                         <td class="price-column"><?php echo $row['unitprice']; ?></td>
                         <td class="downloaded-count-column"><?php echo $row['vote_count']; ?></td>
                         <!--<td class="download-column"><a href="downloadfile.php?filetype=song&file=<?php echo $row['filename']; ?>">download</a></td>-->
+                        <td class="action-column">
                         <?php
+                        if ($objLogIn->isMemberLogIn()){
                         $link = "add2cart.php?song_id=" . $row['song_id'];
                         $link.="&title=" . $row['title'];
                         $link.="&artists=" . $row['artists'];
@@ -174,7 +176,12 @@ function get_authors_name($authors_songs_Array, $song_id) {
                         $link.="&filename=" . $row['filename'];
                         $link.="&action=add2cart";
                         ?>
-                        <td class="add2cart-column"><a href="<?php echo $link; ?>"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>
+                            <a href="<?php echo $link; ?>"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>
+                        <?php }else if ($objLogIn->isAdminLogIn()){ ?>
+                            <a href="songs.php?album_id=<?php echo $row['album_id']; ?>&song_id=<?php echo $row['song_id']; ?>">Edit</a>&nbsp;
+<!--                            <a href="albums-display.php?album_id=<?php echo $row['album_id']; ?>&action=delete" class="delete-link">Delete</a>&nbsp;-->
+                        <?php } ?>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -182,6 +189,17 @@ function get_authors_name($authors_songs_Array, $song_id) {
 
     </div>
 </div>       
+
+<br/>
+
+<?php if ($objLogIn->isAdminLogIn() == true) { ?>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <a href="songs.php?album_id=<?php echo $_GET['album_id']; ?>" class="btn btn-primary">Add New Song</a>
+        </div>
+    </div>
+<?php } ?>
+
 
 <?php include ('includes/footer.php'); ?>
 

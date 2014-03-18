@@ -67,3 +67,7 @@ a.btn, a.btn:link, a.btn:visited {
 #templatemo_banner{
     padding: 10px;
 }
+
+table .action-column{
+    text-align: right;
+}   

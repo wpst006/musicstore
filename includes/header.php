@@ -41,8 +41,7 @@
                     <?php } ?>
                     <li><a href="register.php">Register</a></li>
                     <?php if ($objLogIn->isAdminLogIn() == true) { ?>   
-                        <li><a href="album.php">Album</a></li> 
-                        <li><a href="songs.php">Songs</a></li>        
+                        <li><a href="album.php">Album</a></li>                              
                     <?php } ?>
                     <?php if ($objLogIn->isMemberLogIn()==true){ ?>
                     <li><a href="add2Cart.php">Shopping Cart</a></li>

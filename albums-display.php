@@ -5,13 +5,17 @@
 <style type="text/css">
     #templatemo_content{
         float:none;
-        width:100%;
+        width:100% !important;
     }
 
     .dataTables_wrapper {
         margin: 0 auto;
-        width: 900px;
+        width: 100%;
     }    
+    
+    .action-column{
+        width:200px;
+    }
 </style>
 
 <?php
@@ -42,7 +46,7 @@ if (isset($_GET['action'])){
                     <th class="price-column">Publishing Date</th>
                     <th class="downloaded-count-column">Publisher</th>
                     <th class="downloaded-count-column">Type</th>
-                    <th class="download-column"></th>
+                    <th class="action-column"></th>
                 </tr>
             </thead>
             <tbody>
@@ -63,18 +67,27 @@ if (isset($_GET['action'])){
                             ?>
                             <a href="album.php?album_id=<?php echo $row['album_id']; ?>">Edit</a>&nbsp;
                             <a href="albums-display.php?album_id=<?php echo $row['album_id']; ?>&action=delete" class="delete-link">Delete</a>&nbsp;
-                            <a href="songs.php?album_id=<?php echo $row['album_id']; ?>">Add Song</a>
-                            <?php
-                            }
-                            ?>
+                            <a href="song-display.php?album_id=<?php echo $row['album_id']; ?>">View Song</a>
+                            <?php }else if ($objLogIn->isMemberLogIn()){ ?>
+                                <a href="song-display.php?album_id=<?php echo $row['album_id']; ?>">View Song</a>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php } ?>
             </tbody>
         </table>
-
     </div>
 </div>       
+
+<br/>
+
+<?php if ($objLogIn->isAdminLogIn() == true) { ?>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <a href="album.php" class="btn btn-primary">Add New Album</a>
+        </div>
+    </div>
+<?php } ?>
 
 <?php include ('includes/footer.php'); ?>
 
