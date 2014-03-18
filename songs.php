@@ -180,6 +180,7 @@ function fillDataForEditMode($song_id, &$title, &$length,&$song_type,&$unitprice
 }
 ?>
 
+<?php $pageTitle="song"; ?>
 <?php include('includes/header.php'); ?>
 
 <div class="row">

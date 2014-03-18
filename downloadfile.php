@@ -11,6 +11,7 @@ if ($fileType == 'song') {
     //header("Content-disposition: attachment; filename=ShweLayPhyu.mp3;");
     header("Content-Length: " . filesize($filePath . $file));
     readfile($filePath . $file);
+    //echo $filePath . $file;
 }
 
 exit();

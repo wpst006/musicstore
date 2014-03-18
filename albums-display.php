@@ -33,6 +33,8 @@ if (isset($_GET['action'])){
 }
 ?>
 
+<?php $pageTitle="albums display"; ?>
+
 <?php include('includes/header.php'); ?>               
 
 <div class="row">
@@ -98,7 +100,7 @@ if (isset($_GET['action'])){
             //"sPaginationType": "bootstrap",
             "sPaginationType": "full_numbers",
             "bLengthChange": false,
-            "bFilter": true,
+            "bFilter": false,
             "bInfo": false,
         } );
         

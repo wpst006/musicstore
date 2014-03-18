@@ -137,6 +137,7 @@ function get_authors_name($authors_songs_Array, $song_id) {
     }
 </style>
 
+<?php $pageTitle="songs display"; ?>
 <?php include('includes/header.php'); ?>               
 
 <div class="row">
@@ -210,7 +211,7 @@ function get_authors_name($authors_songs_Array, $song_id) {
             //"sPaginationType": "bootstrap",
             "sPaginationType": "full_numbers",
             "bLengthChange": false,
-            "bFilter": true,
+            "bFilter": false,
             "bInfo": false,
         } );
     });

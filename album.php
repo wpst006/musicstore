@@ -79,6 +79,7 @@ function fillDataForEditMode($album_id,&$title,&$publishing_date,&$publisher,&$c
 }
 ?>
 
+<?php $pageTitle="album" ?>
 <?php include('includes/header.php'); ?>
 
 <div class="row">

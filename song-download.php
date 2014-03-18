@@ -9,6 +9,8 @@ if (isset($_GET['action'])) {
 
 $objShoppingCart = new ShoppingCart();
 ?>
+
+<?php $pageTitle="song download"; ?>
 <?php include('includes/header.php'); ?>
 
 <link href="css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
@@ -49,7 +51,7 @@ $objShoppingCart = new ShoppingCart();
                 <tr>
                     <th class="title-column">Title</th>
                     <th class="artist-column">Artists</th>
-                    <th class="download-column"></th>
+                    <th class="action-column"></th>
                 </tr>
             </thead>
             <tbody>
@@ -57,7 +59,7 @@ $objShoppingCart = new ShoppingCart();
                     <tr id="<?php echo $row['song_id']; ?>">
                         <td class="title-column"><?php echo $row['title']; ?></td>
                         <td class="artist-column"><?php echo $row['artists']; ?></td>                               
-                        <td class="download-column"><a href="downloadfile.php?filetype=song&file=<?php echo $row['filename']; ?>">download</a></td>
+                        <td class="action-column"><a href="downloadfile.php?filetype=song&file=<?php echo $row['filename']; ?>">download</a></td>
                     </tr>
                 <?php } ?>                            
             </tbody>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 19, 2014 at 12:05 AM
+-- Generation Time: Mar 19, 2014 at 01:42 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -194,7 +194,10 @@ CREATE TABLE IF NOT EXISTS `payments` (
 --
 
 INSERT INTO `payments` (`payment_id`, `paymentdate`, `purchase_id`, `cardno`, `cardtype`, `cardholdername`, `securitycode`) VALUES
-('1239440308', '2014-03-18 22:58:40', '1300904392', 'sdf', 'mastercard', 'asfa', 'asdf');
+('1227862763', '2014-03-19 01:15:54', '1146017090', 'a', 'mastercard', 'a', 'a'),
+('1239440308', '2014-03-18 22:58:40', '1300904392', 'sdf', 'mastercard', 'asfa', 'asdf'),
+('1282219748', '2014-03-19 01:17:12', '1288031329', 'asf', 'mastercard', 'a', 'a'),
+('1290786584', '2014-03-19 01:19:06', '1385678663', 'a', 'mastercard', 'a', 'a');
 
 -- --------------------------------------------------------
 
@@ -208,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `purchasedetails` (
   `song_id` varchar(15) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`purcahsedetail_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `purchasedetails`
@@ -216,7 +219,11 @@ CREATE TABLE IF NOT EXISTS `purchasedetails` (
 
 INSERT INTO `purchasedetails` (`purcahsedetail_id`, `purchase_id`, `song_id`, `price`) VALUES
 (1, '1300904392', 'SNG_000004', '5.00'),
-(2, '1300904392', 'SNG_000002', '3.00');
+(2, '1300904392', 'SNG_000002', '3.00'),
+(3, '1146017090', 'SNG_000005', '4.00'),
+(4, '1288031329', 'SNG_000005', '4.00'),
+(5, '1288031329', 'SNG_000001', '5.00'),
+(6, '1385678663', 'SNG_000004', '5.00');
 
 -- --------------------------------------------------------
 
@@ -237,7 +244,10 @@ CREATE TABLE IF NOT EXISTS `purchases` (
 --
 
 INSERT INTO `purchases` (`purchase_id`, `purchasedate`, `member_id`, `total`) VALUES
-('1300904392', '2014-03-18 22:58:40', 'MEM_000002', '8.00');
+('1146017090', '2014-03-19 01:15:54', 'MEM_000002', '4.00'),
+('1288031329', '2014-03-19 01:17:12', 'MEM_000002', '9.00'),
+('1300904392', '2014-03-18 22:58:40', 'MEM_000002', '8.00'),
+('1385678663', '2014-03-19 01:19:06', 'MEM_000002', '5.00');
 
 -- --------------------------------------------------------
 

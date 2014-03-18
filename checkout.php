@@ -56,6 +56,7 @@ if (isset($_POST['submitted'])) {
 }
 ?>
 
+<?php $pageTitle="checkout"; ?>
 <?php include('includes/header.php'); ?>
 
 <div class="row">
