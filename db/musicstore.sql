@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 15, 2014 at 12:05 AM
+-- Generation Time: Mar 18, 2014 at 08:28 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -19,6 +19,30 @@ SET time_zone = "+00:00";
 --
 -- Database: `musicstore`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `albums`
+--
+
+CREATE TABLE IF NOT EXISTS `albums` (
+  `album_id` varchar(15) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `publishing_date` datetime NOT NULL,
+  `publisher` varchar(50) NOT NULL,
+  `cd_dvd` varchar(15) NOT NULL,
+  PRIMARY KEY (`album_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `albums`
+--
+
+INSERT INTO `albums` (`album_id`, `title`, `publishing_date`, `publisher`, `cd_dvd`) VALUES
+('ALM_000001', 'Eminem Album', '2014-03-16 00:00:00', 'Publisher Eminem', 'CD'),
+('ALM_000002', 'Backstreet Boy Album', '2014-03-16 00:00:00', 'Backstreet Boy Publisher', 'CD'),
+('ALM_000003', 'Mariah Carey Album', '2014-03-16 00:00:00', 'Mariah Carey Publisher', 'CD');
 
 -- --------------------------------------------------------
 
@@ -56,21 +80,64 @@ CREATE TABLE IF NOT EXISTS `artists_songs` (
   `artist_id` varchar(15) NOT NULL,
   `song_id` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `artists_songs`
 --
 
 INSERT INTO `artists_songs` (`id`, `artist_id`, `song_id`) VALUES
-(8, 'ART000001', 'SNG000001'),
-(9, 'ART000001', 'SNG000002'),
-(10, 'ART000006', 'SNG000003'),
-(11, 'ART000001', 'SNG000004'),
-(12, 'ART000004', 'SNG000004'),
-(13, 'ART000006', 'SNG000005'),
-(14, 'ART000006', 'SNG000006'),
-(15, 'ART000006', 'SNG000007');
+(7, 'ART000006', 'SNG_000001'),
+(8, 'ART000001', 'SNG_000001'),
+(9, 'ART000006', 'SNG_000002'),
+(10, 'ART000002', 'SNG_000003'),
+(11, 'ART000006', 'SNG_000004');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `authors`
+--
+
+CREATE TABLE IF NOT EXISTS `authors` (
+  `author_id` varchar(15) NOT NULL,
+  `authorname` varchar(50) NOT NULL,
+  `gender` char(1) NOT NULL,
+  PRIMARY KEY (`author_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `authors`
+--
+
+INSERT INTO `authors` (`author_id`, `authorname`, `gender`) VALUES
+('AUT_000001', 'Author 1', 'M'),
+('AUT_000002', 'Author 2', 'F'),
+('AUT_000003', 'Author 3', 'M');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `authors_songs`
+--
+
+CREATE TABLE IF NOT EXISTS `authors_songs` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `author_id` varchar(15) NOT NULL,
+  `song_id` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `authors_songs`
+--
+
+INSERT INTO `authors_songs` (`id`, `author_id`, `song_id`) VALUES
+(5, 'AUT_000001', 'SNG_000001'),
+(6, 'AUT_000002', 'SNG_000001'),
+(7, 'AUT_000002', 'SNG_000002'),
+(8, 'AUT_000001', 'SNG_000003'),
+(9, 'AUT_000002', 'SNG_000004');
 
 -- --------------------------------------------------------
 
@@ -95,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `members` (
 --
 
 INSERT INTO `members` (`member_id`, `firstname`, `lastname`, `DOB`, `contact_phone`, `contact_email`, `country`, `zipcode`) VALUES
-('MEM_000001', 'a', 'a', '0000-00-00 00:00:00', '', '', '', ''),
+('MEM_000001', 'a', 'a', '2014-03-14 00:00:00', '', '', '', ''),
 ('MEM_000002', 'c', 'c', '2014-03-14 00:00:00', 'c', 'c@gmail.com', 'c', 'c'),
 ('MEM_000004', 'g', 'g', '2014-03-14 00:00:00', 'g', 'g@gmail.com', 'g', 'g');
 
@@ -116,16 +183,6 @@ CREATE TABLE IF NOT EXISTS `payments` (
   PRIMARY KEY (`payment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `payments`
---
-
-INSERT INTO `payments` (`payment_id`, `paymentdate`, `purchase_id`, `cardno`, `cardtype`, `cardholdername`, `securitycode`) VALUES
-('1179271741', '2014-03-04 19:27:19', '1370907942', 'a', 'mastercard', 'a', 'a'),
-('1191031754', '2014-02-24 01:37:56', '1302783804', 'b', 'mastercard', 'b', 'b'),
-('1229441104', '2014-02-24 01:24:24', '1145223358', 'a', 'mastercard', 'a', 'a'),
-('1326157855', '2014-03-04 20:04:19', '1219277680', '23r', 'mastercard', 'asdf', 'asdf');
-
 -- --------------------------------------------------------
 
 --
@@ -138,19 +195,7 @@ CREATE TABLE IF NOT EXISTS `purchasedetails` (
   `song_id` varchar(15) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`purcahsedetail_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
-
---
--- Dumping data for table `purchasedetails`
---
-
-INSERT INTO `purchasedetails` (`purcahsedetail_id`, `purchase_id`, `song_id`, `price`) VALUES
-(3, '1145223358', 'SNG000003', '3.00'),
-(4, '1145223358', 'SNG000001', '32.00'),
-(5, '1302783804', 'SNG000007', '33.00'),
-(6, '1302783804', 'SNG000002', '3.00'),
-(7, '1370907942', 'SNG000006', '3.00'),
-(8, '1219277680', 'SNG000006', '3.00');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -166,16 +211,6 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   PRIMARY KEY (`purchase_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `purchases`
---
-
-INSERT INTO `purchases` (`purchase_id`, `purchasedate`, `member_id`, `total`) VALUES
-('1145223358', '2014-02-24 01:24:24', 'MEM000002', '35.00'),
-('1219277680', '2014-03-04 20:04:19', 'MEM000002', '3.00'),
-('1302783804', '2014-02-24 01:37:56', 'MEM000002', '36.00'),
-('1370907942', '2014-03-04 19:27:19', 'MEM000002', '3.00');
-
 -- --------------------------------------------------------
 
 --
@@ -185,11 +220,12 @@ INSERT INTO `purchases` (`purchase_id`, `purchasedate`, `member_id`, `total`) VA
 CREATE TABLE IF NOT EXISTS `songs` (
   `song_id` varchar(15) NOT NULL,
   `title` varchar(50) NOT NULL,
+  `length` varchar(10) NOT NULL,
+  `album_id` varchar(15) NOT NULL,
+  `song_type` varchar(50) NOT NULL,
   `filename` varchar(255) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `uploaded_date` datetime NOT NULL,
-  `downloaded_count` int(11) unsigned NOT NULL,
-  `streamed_count` int(11) unsigned NOT NULL,
+  `unitprice` decimal(10,2) NOT NULL,
+  `vote_count` int(11) unsigned NOT NULL,
   PRIMARY KEY (`song_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -197,14 +233,11 @@ CREATE TABLE IF NOT EXISTS `songs` (
 -- Dumping data for table `songs`
 --
 
-INSERT INTO `songs` (`song_id`, `title`, `filename`, `price`, `uploaded_date`, `downloaded_count`, `streamed_count`) VALUES
-('SNG000001', 'sda', '13 Pyout Sone Yin Khwin.mp3', '32.00', '2014-01-25 12:24:53', 0, 0),
-('SNG000002', 'df', '03 MinNaeNeePho.mp3', '3.00', '2014-01-25 10:55:52', 0, 0),
-('SNG000003', 'asf', '13 Pyout Sone Yin Khwin.mp3', '3.00', '2014-01-25 10:57:06', 0, 0),
-('SNG000004', 'rrrrrrrr', 'lay phyu (2).MP3', '32.00', '2014-01-25 22:03:38', 0, 0),
-('SNG000005', 'asd', '', '3.00', '2014-02-09 21:52:56', 0, 0),
-('SNG000006', 'a', '', '3.00', '2014-02-09 21:54:41', 0, 0),
-('SNG000007', 'abc', '05 Kyar Par Tae Kwar.mp3', '33.00', '2014-02-23 19:18:40', 0, 0);
+INSERT INTO `songs` (`song_id`, `title`, `length`, `album_id`, `song_type`, `filename`, `unitprice`, `vote_count`) VALUES
+('SNG_000001', 'song title', '3 min', 'ALM_000001', 'Pop', '02 A Lwan Thint Pa Chi.mp3', '5.00', 0),
+('SNG_000002', 'a', 'asdf', 'ALM_000001', 'Rock', 'lay phyu (2).MP3', '3.00', 0),
+('SNG_000003', 'adsf', 'sadf', 'ALM_000001', 'Pop', '10 Chit Chin A Lin Kar - Feat - Aung La.mp3', '3.00', 0),
+('SNG_000004', 'sadf', 'asdf', 'ALM_000001', 'Rap', 'lay phyu (2).MP3', '5.00', 0);
 
 -- --------------------------------------------------------
 

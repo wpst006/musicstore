@@ -2,12 +2,13 @@
 
 <?php
 $artists_songs_Array = get_artists_songs_Array();
-$song_Array = get_songs_Array($artists_songs_Array);
-
+$authors_songs_Array = get_authors_songs_Array();
+$song_Array = get_songs_Array($artists_songs_Array,$authors_songs_Array);
 //===========================================================================================================
-function get_songs_Array($artists_songs_Array) {
+function get_songs_Array($artists_songs_Array,$authors_songs_Array) {
     $song_sql = "SELECT * FROM `songs` " .
-            "ORDER BY `uploaded_date`";
+            "WHERE album_id='" . $_GET['album_id'] . "' " .
+            "ORDER BY `title`";
     $song_result = mysql_query($song_sql) or die(mysql_error());
 
     $song_Array = array();
@@ -16,11 +17,14 @@ function get_songs_Array($artists_songs_Array) {
         $song_Array[] = array(
             'song_id' => $song_row['song_id'],
             'title' => $song_row['title'],
-            'price' => $song_row['price'],
+            'length' => $song_row['length'],
+            'album_id' => $song_row['album_id'],
+            'song_type' => $song_row['song_type'],
             'artists' => get_artists_name($artists_songs_Array, $song_row['song_id']),
+            'authors' => get_authors_name($authors_songs_Array, $song_row['song_id']),
             'filename' => $song_row['filename'],
-            'uploaded_date' => $song_row['uploaded_date'],
-            'downloaded' => $song_row['downloaded_count']
+            'unitprice' => $song_row['unitprice'],
+            'vote_count' => $song_row['vote_count']
         );
     }
 
@@ -62,6 +66,43 @@ function get_artists_name($artists_songs_Array, $song_id) {
     $artists_name = rtrim($artists_name, ', ');
 
     return $artists_name;
+}
+
+function get_authors_songs_Array() {
+    $authors_songs_sql = "SELECT `authors_songs`.`song_id`,`authors_songs`.`author_id`,`authors`.`authorname` " .
+            "FROM `authors_songs` " .
+            "INNER JOIN " .
+            "`authors`" .
+            "ON `authors_songs`.`author_id`=`authors`.`author_id` " .
+            "ORDER BY `song_id`, `authorname`";
+    $authors_songs_result = mysql_query($authors_songs_sql) or die(mysql_error());
+
+    $authors_songs_Array = array();
+
+    while ($row = mysql_fetch_array($authors_songs_result)) {
+        $authors_songs_Array[] = array(
+            'song_id' => $row['song_id'],
+            'author_id' => $row['author_id'],
+            'authorname' => $row['authorname']
+        );
+    }
+
+    return $authors_songs_Array;
+}
+
+function get_authors_name($authors_songs_Array, $song_id) {
+    $authors_name = '';
+
+    foreach ($authors_songs_Array as $item) {
+        if ($item['song_id'] == $song_id) {
+            $authors_name.=$item['authorname'] . ', ';
+        }
+    }
+
+    //Remove last "comma" from the string
+    $authors_name = rtrim($authors_name, ', ');
+
+    return $authors_name;
 }
 ?>
 
@@ -105,9 +146,12 @@ function get_artists_name($artists_songs_Array, $song_id) {
             <thead>
                 <tr>
                     <th class="title-column">Title</th>
+                    <th class="title-column">Length</th>
+                    <th class="title-column">Song Type</th>
                     <th class="artist-column">Artists</th>
-                    <th class="price-column">Price</th>
-                    <th class="downloaded-count-column">Downloaded</th>
+                    <th class="artist-column">Authors</th>
+                    <th class="price-column">Unit Price</th>
+                    <th class="downloaded-count-column">Vote Count</th>
                     <th class="download-column"></th>
                 </tr>
             </thead>
@@ -115,15 +159,18 @@ function get_artists_name($artists_songs_Array, $song_id) {
                 <?php foreach ($song_Array as $row) { ?>
                     <tr>
                         <td class="title-column"><?php echo $row['title']; ?></td>
+                        <td class="title-column"><?php echo $row['length']; ?></td>
+                        <td class="title-column"><?php echo $row['song_type']; ?></td>
                         <td class="artist-column"><?php echo $row['artists']; ?></td>
-                        <td class="price-column"><?php echo $row['price']; ?></td>
-                        <td class="downloaded-count-column"><?php echo $row['downloaded']; ?></td>
+                        <td class="artist-column"><?php echo $row['authors']; ?></td>
+                        <td class="price-column"><?php echo $row['unitprice']; ?></td>
+                        <td class="downloaded-count-column"><?php echo $row['vote_count']; ?></td>
                         <!--<td class="download-column"><a href="downloadfile.php?filetype=song&file=<?php echo $row['filename']; ?>">download</a></td>-->
                         <?php
                         $link = "add2cart.php?song_id=" . $row['song_id'];
                         $link.="&title=" . $row['title'];
                         $link.="&artists=" . $row['artists'];
-                        $link.="&price=" . $row['price'];
+                        $link.="&price=" . $row['unitprice'];
                         $link.="&filename=" . $row['filename'];
                         $link.="&action=add2cart";
                         ?>

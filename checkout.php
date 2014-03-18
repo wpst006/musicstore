@@ -32,12 +32,12 @@ if (isset($_POST['submitted'])) {
     mysql_query($purchaseInsert_sql) or die(mysql_error());
     //******************************************************************************************************************************************
     foreach ($shoppingCartData as $index=>$shoppingCartItem){
-        $song_id=$shoppingCartItem['song_id'];
+        $album_id=$shoppingCartItem['song_id'];
         $price=$shoppingCartItem['price'];
 
         $purchaseDetailInsert_sql = "INSERT INTO " .
             "purchasedetails(purchase_id,song_id,price) " .
-            "VALUES('$purchase_id','$song_id',$price)";
+            "VALUES('$purchase_id','$album_id',$price)";
 
         mysql_query($purchaseDetailInsert_sql) or die(mysql_error());
     }

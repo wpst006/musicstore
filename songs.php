@@ -1,44 +1,48 @@
 <?php include("includes/includefiles.php"); ?>    
+<?php require_once("includes/authorHelper.php"); ?>    
 
 <?php
-$song_id = null;
+$album_id = $_GET['album_id'];
+$song_id=null;
 $title = '';
 $filename = '';
-$price = 0.0;
+$unitprice = 0.0;
 $artist_ids_string = '';
+$author_ids_string = '';
+$song_type_selected='';
+$length = '';
 
 if (isset($_POST['submitted'])) {
-    $error = false;
-
     if (isset($_POST['song_id'])) {
-        $status = updateSong($song_id);
+        updateSong($album_id);
     } else {
-        $status = saveNewSong($song_id);
-    }
-
-    if ($status == true) {
-        messageHelper::setMessage("Song is successfully saved with Song ID : " . $song_id,MESSAGE_TYPE_SUCCESS);
+        saveNewSong($album_id);
     }
 } else {
 
     if (isset($_GET['song_id'])) {
-        fillDataForEditMode($song_id, $title, $price, $filename, $artist_ids_string);
+        $song_id=$_GET['song_id'];
+        fillDataForEditMode($song_id, $title, $length,$song_type,$unitprice, $filename, $artist_ids_string,$author_ids_string,$song_type_selected);
     }
 }
 
 function saveNewSong(&$song_id) {
     //Filling Data
-    $song_id = autoID::getAutoID('songs', 'song_id', 'SNG', 6);
+    $song_id = autoID::getAutoID('songs', 'song_id', 'SNG_', 6);
+    $album_id=$_POST['album_id'];
     $title = $_POST['title'];
+    $length=$_POST['length'];
+    $song_type=$_POST['song_type'];    
     $artist_id_Array = $_POST['artist_id'];
+    $author_id_Array = $_POST['author_id'];
     $uploadedsong = $_POST['uploadedsong'];
-    $price = $_POST['price'];
+    $unitprice = $_POST['unitprice'];
     //******************************************************************************************************************
     date_default_timezone_set(DEFAULT_TIMEZONE);
     //"songs" Table Insert
     $songInsert_sql = "INSERT INTO " .
-            "`songs` (song_id,title,filename,price,uploaded_date,downloaded_count,streamed_count) " .
-            "VALUES('$song_id','$title','$uploadedsong',$price,'" . date("Y-m-d H:i:s") . "',0,0)";
+            "`songs` (song_id,title,length,album_id,song_type,filename,unitprice,vote_count) " .
+            "VALUES('$song_id','$title','$length','$album_id','$song_type','$uploadedsong',$unitprice,0)";
 
     mysql_query($songInsert_sql) or die(mysql_error());
     //******************************************************************************************************************
@@ -50,21 +54,37 @@ function saveNewSong(&$song_id) {
 
         mysql_query($artist_songs_Insert_sql) or die(mysql_error());
     }
+    //******************************************************************************************************************
+    //"authors_songs" Table Insert
+    for ($i = 0; $i < count($author_id_Array); $i++) {
+        $author_songs_Insert_sql = "INSERT INTO " .
+                "`authors_songs`(author_id,song_id) " .
+                "VALUES('$author_id_Array[$i]','$song_id')";
 
-    return true;
+        mysql_query($author_songs_Insert_sql) or die(mysql_error());
+    }
+    //******************************************************************************************************************
+    messageHelper::setMessage("Song is successfully saved with Song ID : " . $song_id, MESSAGE_TYPE_SUCCESS);
+    header("Location:index.php");
+    exit();
 }
 
 function updateSong(&$song_id) {
     //Filling Data
     $song_id = $_POST['song_id'];
     $title = $_POST['title'];
+    $length=$_POST['length'];
+    $song_type=$_POST['song_type'];  
     $artist_id_Array = $_POST['artist_id'];
-    $price = $_POST['price'];
+    $author_id_Array = $_POST['author_id'];
+    $unitprice = $_POST['unitprice'];       
     //******************************************************************************************************************
     //"songs" Table Update
     $songUpdate_sql = "UPDATE `songs` SET " .
             "title='" . $title . "'," .
-            "price=" . $price . " " .
+            "length='" . $length . "'," .
+            "song_type='" . $song_type . "'," .
+            "unitprice=" . $unitprice . " " .
             "WHERE song_id='" . $song_id . "'";
 
     mysql_query($songUpdate_sql) or die(mysql_error());
@@ -82,12 +102,27 @@ function updateSong(&$song_id) {
 
         mysql_query($artist_songs_Insert_sql) or die(mysql_error());
     }
+    //******************************************************************************************************************
+    //"authors_songs" Table Clear
+    $author_songs_Delete_sql = "DELETE FROM `authors_songs` " .
+            "WHERE `song_id`='" . $song_id . "'";
 
-    return true;
+    mysql_query($author_songs_Delete_sql) or die(mysql_error());
+    //"authors_songs" Table Insert
+    for ($i = 0; $i < count($author_id_Array); $i++) {
+        $author_songs_Insert_sql = "INSERT INTO " .
+                "`authors_songs`(author_id,song_id) " .
+                "VALUES('$author_id_Array[$i]','$song_id')";
+
+        mysql_query($author_songs_Insert_sql) or die(mysql_error());
+    }
+    //******************************************************************************************************************
+    messageHelper::setMessage("Song is successfully saved with Song ID : " . $song_id, MESSAGE_TYPE_SUCCESS);
+    header("Location:songs.php?album_id=". $_GET['album_id'] . "&song_id=" . $song_id);
+    exit();
 }
 
-function fillDataForEditMode(&$song_id, &$title, &$price, &$filename, &$artist_ids_string) {
-    $song_id = $_GET['song_id'];
+function fillDataForEditMode($song_id, &$title, &$length,&$song_type,&$unitprice, &$filename, &$artist_ids_string,&$author_ids_string,&$song_type_selected){
 
     $song_sql = "SELECT * FROM `songs` " .
             "WHERE song_id='" . $song_id . "'";
@@ -101,8 +136,10 @@ function fillDataForEditMode(&$song_id, &$title, &$price, &$filename, &$artist_i
 
     while ($song_row = mysql_fetch_array($song_result)) {
         $title = $song_row['title'];
-        $price = $song_row['price'];
-        $filename = $song_row['filename'];
+        $length=$song_row['length'];
+        $song_type_selected=$song_row['song_type'];
+        $unitprice = $song_row['unitprice'];
+        $filename = $song_row['filename'];        
     }
     //******************************************************************************************************************
     $artists_songs_sql = "SELECT * FROM `artists_songs` " .
@@ -121,6 +158,22 @@ function fillDataForEditMode(&$song_id, &$title, &$price, &$filename, &$artist_i
     //Remove last "comma" from the string
     $artist_ids_string = rtrim($artist_ids_string, ',');
     //******************************************************************************************************************
+    $authors_songs_sql = "SELECT * FROM `authors_songs` " .
+            "WHERE song_id='" . $song_id . "'";
+    $authors_songs_result = mysql_query($authors_songs_sql) or die(mysql_error());
+
+    $authors_songs_noOfRow = mysql_num_rows($authors_songs_result);
+
+    if ($authors_songs_noOfRow == 0) {
+        die("There is no matching sound for Song ID : " . $song_id);
+    }
+    
+    while ($authors_songs_row = mysql_fetch_array($authors_songs_result)) {
+        $author_ids_string .= $authors_songs_row['author_id'] . ',';
+    }
+    //Remove last "comma" from the string
+    $author_ids_string = rtrim($author_ids_string, ',');
+    //******************************************************************************************************************
 }
 ?>
 
@@ -130,81 +183,123 @@ function fillDataForEditMode(&$song_id, &$title, &$price, &$filename, &$artist_i
     <div class="col-md-12">
         <form role="form" id="songs" name="songs" action="songs.php" method="post" class="form-horizontal">
 
-                    <?php if (isset($song_id)) { ?>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Song ID :</label>
-                            <div class="col-sm-9">
-                                <p class="form-control-static"><?php echo $song_id; ?></p>                                    
-                                <input type="hidden" id="song_id" name="song_id" value="<?php echo $song_id; ?>"/>
-                            </div>                            
-                        </div>
-                    <?php } ?>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Album ID :</label>
+                <div class="col-sm-9">
+                    <p class="form-control-static"><?php echo $album_id; ?></p>                                    
+                    <input type="hidden" id="album_id" name="album_id" value="<?php echo $album_id; ?>"/>
+                </div>                            
+            </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Title :</label>
-                        <div class="col-sm-9">
-                            <input type="text" id="title" name="title" class="form-control" value="<?php echo $title; ?>" maxlength="30"/>
-                        </div>                        
-                    </div>
+            <?php if (isset($song_id)) { ?>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Song ID :</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static"><?php echo $song_id; ?></p>                                    
+                        <input type="hidden" id="song_id" name="song_id" value="<?php echo $song_id; ?>"/>
+                    </div>                            
+                </div>
+            <?php } ?>
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Artist(s) :</label>
-                        <div class="col-sm-9">
-                            <?php
-                        $sql = "SELECT artist_id,title FROM artists " .
-                                "ORDER BY title";
-                        $result = mysql_query($sql) or die(mysql_error());
-                        ?>
-                        <select id="artist_id" name="artist_id[]" class="chosen-select" multiple="true" data-placeholder="Choose artist(s) ...">
-                            <?php while ($row = mysql_fetch_array($result)) { ?>
-                                <option value="<?php echo $row['artist_id']; ?>"><?php echo $row['title']; ?></option>
-                            <?php } ?>
-                        </select>
-                        <input type="hidden" id="artist_ids_string" name="artist_ids_string" value="<?php echo $artist_ids_string; ?>" />
-                        </div>                            
-                    </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Title :</label>
+                <div class="col-sm-9">
+                    <input type="text" id="title" name="title" class="form-control" value="<?php echo $title; ?>" maxlength="30"/>
+                </div>                        
+            </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">File :</label>
-                        <div class="col-sm-9">
-                        <?php if (!isset($song_id)) { ?>
-                            <img id="songpreview" src="" width="100px" height="100px" />
-                            <label id="song_file_name"></label>
-                            <!--<input type="file" id="song" name="song" size="40"/>-->
-                            <button id="btn_upload_song" name="btn_upload_photo" class="btn btn-info">Upload Song</button>
-                            <input type="hidden" name="uploadedsong" id="uploadedsong"></input>
-                        <?php } else { ?>
-                            <?php echo $filename; ?>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Length :</label>
+                <div class="col-sm-9">
+                    <input type="text" id="length" name="length" class="form-control" value="<?php echo $length; ?>" maxlength="30"/>
+                </div>                        
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Song Type :</label>
+                <div class="col-sm-9">                            
+                    <select id="song_type" name="song_type" class="chosen-select" data-placeholder="Select Song Type ...">
+                        <option>Rock</option>
+                        <option>Pop</option>
+                        <option>Rap</option>
+                    </select>    
+                    <input type="hidden" id="song_type_selected" name="song_type_selected" value="<?php echo $song_type_selected; ?>" />
+                </div>                            
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Artist(s) :</label>
+                <div class="col-sm-9">
+                    <?php
+                    $sql = "SELECT artist_id,title FROM artists " .
+                            "ORDER BY title";
+                    $result = mysql_query($sql) or die(mysql_error());
+                    ?>
+                    <select id="artist_id" name="artist_id[]" class="chosen-select" multiple="true" data-placeholder="Choose artist(s) ...">
+                        <?php while ($row = mysql_fetch_array($result)) { ?>
+                            <option value="<?php echo $row['artist_id']; ?>"><?php echo $row['title']; ?></option>
                         <?php } ?>
-                        </div>
-                    </div>      
+                    </select>
+                    <input type="hidden" id="artist_ids_string" name="artist_ids_string" value="<?php echo $artist_ids_string; ?>" />
+                </div>                            
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Author(s) :</label>
+                <div class="col-sm-9">
+                    <?php
+                    $authorData = authorHelper::selectAll();
+                    ?>
+                    <select id="author_id" name="author_id[]" class="chosen-select" multiple="true" data-placeholder="Choose author(s) ...">
+                        <?php foreach ($authorData as $row) { ?>
+                            <option value="<?php echo $row['author_id']; ?>"><?php echo $row['authorname']; ?></option>
+                        <?php } ?>
+                    </select>
+                    <input type="hidden" id="author_ids_string" name="author_ids_string" value="<?php echo $author_ids_string; ?>" />
+                </div>                            
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">File :</label>
+                <div class="col-sm-9">
+                    <?php if (!isset($song_id)) { ?>
+                        <img id="songpreview" src="" width="100px" height="100px" />
+                        <label id="song_file_name"></label>
+                        <!--<input type="file" id="song" name="song" size="40"/>-->
+                        <button id="btn_upload_song" name="btn_upload_photo" class="btn btn-info">Upload Song</button>
+                        <input type="hidden" name="uploadedsong" id="uploadedsong"></input>
+                    <?php } else { ?>
+                        <?php echo $filename; ?>
+                    <?php } ?>
+                </div>
+            </div>      
 
 
-                    <!--                    <div class="form-group">
-                                            <label></div>
-                                            <div class="form-control">
-                                                <img id="photopreview" src="" width="100px" height="100px" />
-                                                <input type="file" id="photo" name="photo" size="40"/>
-                                                <button id="btn_upload_photo" name="btn_upload_photo">Upload Photo</button>
-                                                <input type="hidden" name="uploadedphoto" id="uploadedphoto"></input>
-                                            </div>
-                                        </div>                  -->
+            <!--                    <div class="form-group">
+                                    <label></div>
+                                    <div class="form-control">
+                                        <img id="photopreview" src="" width="100px" height="100px" />
+                                        <input type="file" id="photo" name="photo" size="40"/>
+                                        <button id="btn_upload_photo" name="btn_upload_photo">Upload Photo</button>
+                                        <input type="hidden" name="uploadedphoto" id="uploadedphoto"></input>
+                                    </div>
+                                </div>                  -->
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Price :</label>
-                        <div class="col-sm-9">
-                            <input type="text" id="price" name="price" class="form-control" value="<?php echo $price; ?>" maxlength="30"/>
-                        </div>                        
-                    </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Unit Price :</label>
+                <div class="col-sm-9">
+                    <input type="text" id="unitprice" name="unitprice" class="form-control" value="<?php echo $unitprice; ?>" maxlength="30"/>
+                </div>                        
+            </div>
 
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9">
-                            <button type="submit" name="submitted" class="btn btn-default btn-primary" onclick="return userInputValidate();">Save</button>
-                            <button type="reset" name="reset"  class="btn btn-default">Reset</button>
-                        </div>
-                    </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" name="submitted" class="btn btn-default btn-primary" onclick="return userInputValidate();">Save</button>
+                    <button type="reset" name="reset"  class="btn btn-default">Reset</button>
+                </div>
+            </div>
 
-                </form>
+        </form>
     </div> 
 </div>                    
 
@@ -225,9 +320,23 @@ function fillDataForEditMode(&$song_id, &$title, &$price, &$filename, &$artist_i
             
             $('#artist_id').val(artistIDArray);
             $("#artist_id").trigger("chosen:updated");
+            //******************************************************************************************************************
+            var author_ids_string=$('#author_ids_string').val();
+            var temp=author_ids_string.split(",");
+            var authorIDArray=new Array();
+            
+            for (var i=0;i<temp.length;i++){
+                authorIDArray.push(temp[i]);
+            }
+            
+            $('#author_id').val(authorIDArray);
+            $("#author_id").trigger("chosen:updated");
+            
+            $("#song_type").val($('#song_type_selected').val());
+            $("#song_type").trigger("chosen:updated");
         }
     });
-    
+        
     function userInputValidate(){
         if (pluginValidation()==false){
             return false;
@@ -235,6 +344,11 @@ function fillDataForEditMode(&$song_id, &$title, &$price, &$filename, &$artist_i
         
         if ($('#artist_id').val()==null){
             alert("Please select the artist(s).");
+            return false;
+        }
+        
+        if ($('#author_id').val()==null){
+            alert("Please select the author(s).");
             return false;
         }
         
@@ -267,11 +381,15 @@ function fillDataForEditMode(&$song_id, &$title, &$price, &$filename, &$artist_i
                     {
                     required: true
                 },
-                artist_id: 
+                length: 
                     {
                     required: true
                 },
-                price: 
+                song_type: 
+                    {
+                    required: true
+                },
+                unitprice: 
                     {
                     required: true,
                     number: true,
@@ -282,8 +400,9 @@ function fillDataForEditMode(&$song_id, &$title, &$price, &$filename, &$artist_i
             messages: 
                 {
                 title: "Please enter song title.",
-                artist_id: "Please select artist(s).",
-                price: 
+                length: "Please select length.",
+                song_type: "Please select song type.",
+                unitprice: 
                     {
                     required: "Please enter price.",
                     number: "Please enter valid number for price.",
@@ -319,10 +438,10 @@ function fillDataForEditMode(&$song_id, &$title, &$price, &$filename, &$artist_i
         //                photoPreview.attr('src','files/images/' +  response); //make the preview image display the uploaded file
         //                $('#uploadedphoto').val(response); //drop the path to the file into the hidden field
         //            }
-        //        });               
+        //        });                       
         
         //Work only in "new" mode
-        if ($('#song_id').length==0){
+        if ($('#song_id').length==0){            
             var songPreview = $('#songpreview'); //id of the preview image
             new AjaxUpload('btn_upload_song', {
                 action: 'savefile.php?filetype=song', //the php script that receives and saves the image

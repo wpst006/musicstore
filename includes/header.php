@@ -40,7 +40,8 @@
                         <li><a href="logout.php">Log Out</a></li>
                     <?php } ?>
                     <li><a href="register.php">Register</a></li>
-                    <?php if ($objLogIn->isAdminLogIn() == true) { ?>                    
+                    <?php if ($objLogIn->isAdminLogIn() == true) { ?>   
+                        <li><a href="album.php">Album</a></li> 
                         <li><a href="songs.php">Songs</a></li>        
                     <?php } ?>
                     <?php if ($objLogIn->isMemberLogIn()==true){ ?>

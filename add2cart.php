@@ -20,13 +20,13 @@ $objShoppingCart = new ShoppingCart();
 $message = '';
 
 if ($action == 'add2cart') {
-    $song_id = $_GET['song_id'];
+    $album_id = $_GET['song_id'];
     $title = $_GET['title'];
     $artists = $_GET['artists'];
     $price = $_GET['price'];
     $filename=$_GET['filename'];
 
-    if ($objShoppingCart->insert($song_id, $title, $artists, $price,$filename) == 1) {
+    if ($objShoppingCart->insert($album_id, $title, $artists, $price,$filename) == 1) {
         messageHelper::setMessage('Song is successfully added to the shopping cart.',MESSAGE_TYPE_SUCCESS);
     } else {
         messageHelper::setMessage('Song is already in the shopping cart.',MESSAGE_TYPE_ERROR);
@@ -39,8 +39,8 @@ if ($action == 'clear') {
 }
 
 if ($action == 'remove') {
-    $song_id = $_GET['song_id'];
-    $objShoppingCart->remove($song_id);
+    $album_id = $_GET['song_id'];
+    $objShoppingCart->remove($album_id);
     messageHelper::setMessage('Song is successfully removed from the shopping cart.',MESSAGE_TYPE_INFO);
 }
 ?>
