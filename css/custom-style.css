@@ -106,7 +106,7 @@ table .action-column{
     text-align: right;
 }   
 
-table.dataTable tr.odd td.action-column a{
+table.dataTable tr.odd td a{
     color:white;
 }
 /* Table Css End */

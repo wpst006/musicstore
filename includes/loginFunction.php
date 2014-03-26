@@ -51,5 +51,12 @@ class logIn {
 
         return true;
     }
+    
+    function getLoggedInData(){
+        if (!isset($_SESSION['user']))
+            return null;
+        
+        return $_SESSION['user'];
+    }
 }
 ?>

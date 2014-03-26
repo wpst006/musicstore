@@ -158,7 +158,7 @@ function get_authors_name($authors_songs_Array, $song_id) {
                 </tr>
             </thead>
             <tbody>
-<?php foreach ($song_Array as $row) { ?>
+                <?php foreach ($song_Array as $row) { ?>
                     <tr>
                         <td class="title-column"><?php echo $row['title']; ?></td>
                         <td class="title-column"><?php echo $row['length']; ?></td>
@@ -166,7 +166,10 @@ function get_authors_name($authors_songs_Array, $song_id) {
                         <td class="artist-column"><?php echo $row['artists']; ?></td>
                         <td class="artist-column"><?php echo $row['authors']; ?></td>
                         <td class="price-column"><?php echo $row['unitprice']; ?></td>
-                        <td class="downloaded-count-column"><?php echo $row['vote_count']; ?></td>
+                        <td class="downloaded-count-column">
+                            <?php echo $row['vote_count']; ?><br/>
+                            <a href="votes.php?album_id=<?php echo $row['album_id']; ?>&song_id=<?php echo $row['song_id'];?>" >Vote</a>
+                        </td>
                         <!--<td class="download-column"><a href="downloadfile.php?filetype=song&file=<?php echo $row['filename']; ?>">download</a></td>-->
                         <td class="action-column">
                             <?php
@@ -179,13 +182,15 @@ function get_authors_name($authors_songs_Array, $song_id) {
                                 $link.="&action=add2cart";
                                 ?>
                                 <a href="<?php echo $link; ?>"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>
-    <?php } else if ($objLogIn->isAdminLogIn()) { ?>
-                    <a href="songs.php?album_id=<?php echo $row['album_id']; ?>&song_id=<?php echo $row['song_id']; ?>">Edit</a>&nbsp;
+                        <?php } else if ($objLogIn->isAdminLogIn()) { ?>
+                    <a href="songs.php?album_id=<?php echo $row['album_id']; ?>&song_id=<?php echo $row['song_id']; ?>">Edit</a>
+                    &nbsp;
+                    <a href="awards.php?song_id=<?php echo $row['song_id']; ?>">Award</a>
         <!--                            <a href="albums-display.php?album_id=<?php echo $row['album_id']; ?>&action=delete" class="delete-link">Delete</a>&nbsp;-->
-    <?php } ?>
+                <?php } ?>
                 </td>
                 </tr>
-<?php } ?>
+            <?php } ?>
             </tbody>
         </table>
 
@@ -198,7 +203,7 @@ function get_authors_name($authors_songs_Array, $song_id) {
     <div class="col-md-12 text-right">
         <?php if ($objLogIn->isAdminLogIn() == true) { ?>
             <a href="songs.php?album_id=<?php echo $_GET['album_id']; ?>" class="btn btn-primary">Add New Song</a>
-    <?php } ?>
+        <?php } ?>
         <a href="export-song.php?album_id=<?php echo $_GET['album_id']; ?>" class="btn btn-default btn-info my-btn">Print</a>
     </div>
 </div>

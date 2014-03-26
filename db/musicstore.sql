@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 26, 2014 at 08:14 AM
+-- Generation Time: Mar 26, 2014 at 07:38 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -145,6 +145,32 @@ INSERT INTO `authors_songs` (`id`, `author_id`, `song_id`) VALUES
 (21, 'AUT_000002', 'SNG_000006'),
 (22, 'AUT_000003', 'SNG_000006');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `awards`
+--
+
+CREATE TABLE IF NOT EXISTS `awards` (
+  `award_id` varchar(15) NOT NULL,
+  `award_year` datetime NOT NULL,
+  `vote_count` int(11) NOT NULL,
+  `song_id` varchar(15) NOT NULL,
+  PRIMARY KEY (`award_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `awards_view`
+--
+CREATE TABLE IF NOT EXISTS `awards_view` (
+`award_id` varchar(15)
+,`award_year` datetime
+,`vote_count` int(11)
+,`song_id` varchar(15)
+,`title` varchar(50)
+);
 -- --------------------------------------------------------
 
 --
@@ -291,7 +317,7 @@ INSERT INTO `songs` (`song_id`, `title`, `length`, `album_id`, `song_type`, `fil
 ('SNG_000002', 'Love the way you lie', 'asdf', 'ALM_000001', 'Rock', 'lay phyu (2).MP3', '3.00', 0),
 ('SNG_000003', 'I will be missing you', 'sadf', 'ALM_000001', 'Pop', '10 Chit Chin A Lin Kar - Feat - Aung La.mp3', '3.00', 0),
 ('SNG_000004', 'qqqq', 'asdf', 'ALM_000001', 'Rap', 'lay phyu (2).MP3', '5.00', 0),
-('SNG_000005', 'aaaaaa', '23', 'ALM_000001', 'Rap', 'Aqua - Good Morning Sunshine.mp3', '4.00', 0),
+('SNG_000005', 'aaaaaa', '23', 'ALM_000001', 'Rap', 'Aqua - Good Morning Sunshine.mp3', '4.00', 1),
 ('SNG_000006', 'aaa', '23', 'ALM_000002', 'Rock', 'Aqua - Good Morning Sunshine.mp3', '3.00', 0);
 
 -- --------------------------------------------------------
@@ -318,6 +344,37 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `role`) VALUES
 ('MEM_000002', 'a', 'a@gmail.com', 'a', 'member'),
 ('MEM_000003', 'c', 'c@gmail.com', 'c', 'member'),
 ('MEM_000004', 'g', 'g@gmail.com', 'g', 'member');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `votes`
+--
+
+CREATE TABLE IF NOT EXISTS `votes` (
+  `vote_id` varchar(15) NOT NULL,
+  `vote_date` datetime NOT NULL,
+  `member_id` varchar(15) NOT NULL,
+  `song_id` varchar(15) NOT NULL,
+  `messagedetails` varchar(255) NOT NULL,
+  PRIMARY KEY (`vote_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `votes`
+--
+
+INSERT INTO `votes` (`vote_id`, `vote_date`, `member_id`, `song_id`, `messagedetails`) VALUES
+('VOT_000001', '2014-03-26 00:00:00', 'MEM_000002', 'SNG_000005', 'abc');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `awards_view`
+--
+DROP TABLE IF EXISTS `awards_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `awards_view` AS select `awards`.`award_id` AS `award_id`,`awards`.`award_year` AS `award_year`,`awards`.`vote_count` AS `vote_count`,`songs`.`song_id` AS `song_id`,`songs`.`title` AS `title` from (`awards` join `songs` on((`awards`.`song_id` = `songs`.`song_id`))) order by `awards`.`award_id`;
 
 -- --------------------------------------------------------
 
