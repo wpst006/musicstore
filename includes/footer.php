@@ -5,7 +5,7 @@ $currentPageName= pageHelper::getCurrentPageName();
 
 $hasSideBar=true;
 
-$hasSideBar=!in_array($currentPageName, array('song-display.php','add2cart.php','song-download.php','albums-display.php'));
+$hasSideBar=!in_array($currentPageName, array('song-display.php','add2cart.php','song-download.php'));
 
 if ($hasSideBar == true) {
     include('includes/sidebar.php');

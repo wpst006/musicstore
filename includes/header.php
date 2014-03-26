@@ -43,6 +43,8 @@
                     <li><a href="register.php">Register</a></li>
                     <?php if ($objLogIn->isAdminLogIn() == true) { ?>   
                         <li><a href="album.php">Album</a></li>                              
+                        <li><a href="member-display.php">Member Report</a></li>   
+                        <li><a href="purchase-display.php">Purchase Report</a></li>   
                     <?php } ?>
                     <?php if ($objLogIn->isMemberLogIn() == true) { ?>
                         <li><a href="add2Cart.php">Shopping Cart</a></li>

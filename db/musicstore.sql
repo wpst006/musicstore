@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 19, 2014 at 01:42 AM
+-- Generation Time: Mar 26, 2014 at 08:14 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -168,7 +168,6 @@ CREATE TABLE IF NOT EXISTS `members` (
 --
 
 INSERT INTO `members` (`member_id`, `firstname`, `lastname`, `DOB`, `contact_phone`, `contact_email`, `country`, `zipcode`) VALUES
-('MEM_000001', 'a', 'a', '2014-03-14 00:00:00', '', '', '', ''),
 ('MEM_000002', 'c', 'c', '2014-03-14 00:00:00', 'c', 'c@gmail.com', 'c', 'c'),
 ('MEM_000004', 'g', 'g', '2014-03-14 00:00:00', 'g', 'g@gmail.com', 'g', 'g');
 
@@ -197,7 +196,8 @@ INSERT INTO `payments` (`payment_id`, `paymentdate`, `purchase_id`, `cardno`, `c
 ('1227862763', '2014-03-19 01:15:54', '1146017090', 'a', 'mastercard', 'a', 'a'),
 ('1239440308', '2014-03-18 22:58:40', '1300904392', 'sdf', 'mastercard', 'asfa', 'asdf'),
 ('1282219748', '2014-03-19 01:17:12', '1288031329', 'asf', 'mastercard', 'a', 'a'),
-('1290786584', '2014-03-19 01:19:06', '1385678663', 'a', 'mastercard', 'a', 'a');
+('1290786584', '2014-03-19 01:19:06', '1385678663', 'a', 'mastercard', 'a', 'a'),
+('1321568805', '2014-03-19 10:19:10', '1162831445', 'a', 'mastercard', 'a', 'a');
 
 -- --------------------------------------------------------
 
@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `purchasedetails` (
   `song_id` varchar(15) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`purcahsedetail_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `purchasedetails`
@@ -223,8 +223,22 @@ INSERT INTO `purchasedetails` (`purcahsedetail_id`, `purchase_id`, `song_id`, `p
 (3, '1146017090', 'SNG_000005', '4.00'),
 (4, '1288031329', 'SNG_000005', '4.00'),
 (5, '1288031329', 'SNG_000001', '5.00'),
-(6, '1385678663', 'SNG_000004', '5.00');
+(6, '1385678663', 'SNG_000004', '5.00'),
+(7, '1162831445', 'SNG_000005', '4.00');
 
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `purchasedetails_view`
+--
+CREATE TABLE IF NOT EXISTS `purchasedetails_view` (
+`purchase_id` varchar(15)
+,`song_id` varchar(15)
+,`title` varchar(50)
+,`length` varchar(10)
+,`song_type` varchar(50)
+,`price` decimal(10,2)
+);
 -- --------------------------------------------------------
 
 --
@@ -244,7 +258,8 @@ CREATE TABLE IF NOT EXISTS `purchases` (
 --
 
 INSERT INTO `purchases` (`purchase_id`, `purchasedate`, `member_id`, `total`) VALUES
-('1146017090', '2014-03-19 01:15:54', 'MEM_000002', '4.00'),
+('1146017090', '2014-03-19 01:15:54', 'MEM_000004', '4.00'),
+('1162831445', '2014-03-19 10:19:10', 'MEM_000002', '4.00'),
 ('1288031329', '2014-03-19 01:17:12', 'MEM_000002', '9.00'),
 ('1300904392', '2014-03-18 22:58:40', 'MEM_000002', '8.00'),
 ('1385678663', '2014-03-19 01:19:06', 'MEM_000002', '5.00');
@@ -303,6 +318,15 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `role`) VALUES
 ('MEM_000002', 'a', 'a@gmail.com', 'a', 'member'),
 ('MEM_000003', 'c', 'c@gmail.com', 'c', 'member'),
 ('MEM_000004', 'g', 'g@gmail.com', 'g', 'member');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `purchasedetails_view`
+--
+DROP TABLE IF EXISTS `purchasedetails_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `purchasedetails_view` AS select `purchasedetails`.`purchase_id` AS `purchase_id`,`purchasedetails`.`song_id` AS `song_id`,`songs`.`title` AS `title`,`songs`.`length` AS `length`,`songs`.`song_type` AS `song_type`,`purchasedetails`.`price` AS `price` from (`purchasedetails` join `songs` on((`purchasedetails`.`song_id` = `songs`.`song_id`))) order by `songs`.`song_id`;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
