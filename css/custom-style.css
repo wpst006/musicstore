@@ -121,3 +121,7 @@ table.dataTable tr.odd td a{
     text-align: right;
     width: 280px;
 }
+
+#search_box a{
+    color:white !important;
+}

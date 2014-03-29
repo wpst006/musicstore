@@ -30,7 +30,8 @@
                     <?php
                     $loggedInData=$objLogIn->getLoggedInData();
                     if ($loggedInData!=null){
-                        echo "logged in as <b>" . $loggedInData['username'] . "</b>";
+                        $temp= "<a href='register.php?member_id=" . $loggedInData['user_id'] . "'> logged in as <b>" . $loggedInData['username'] . "</b></a>";
+                        echo $temp;
                     }
                     ?>
                 </div>
