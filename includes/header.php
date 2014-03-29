@@ -41,10 +41,12 @@
                         <li><a href="logout.php">Log Out</a></li>
                     <?php } ?>
                     <li><a href="register.php">Register</a></li>
-                    <?php if ($objLogIn->isAdminLogIn() == true) { ?>   
-                        <li><a href="album.php">Album</a></li>                              
+                    <?php if ($objLogIn->isAdminLogIn() == true) { ?>                               
                         <li><a href="member-display.php">Member Report</a></li>   
-                        <li><a href="purchase-display.php">Purchase Report</a></li>   
+                        <li><a href="purchase-display.php">Purchase Report</a></li> 
+                        <li><a href="authors-display.php">Authors Display</a></li>   
+                        <li><a href="artists-display.php">Artists Display</a></li>  
+                        <li><a href="award-display.php">Award Display</a></li>  
                     <?php } ?>
                     <?php if ($objLogIn->isMemberLogIn() == true) { ?>
                         <li><a href="add2Cart.php">Shopping Cart</a></li>
@@ -57,13 +59,13 @@
                 <div class="flexslider">
                     <ul class="slides">
                         <li>
-                            <img src="slideshow/slide01.png" />
+                            <img src="slideshow/slide01.gif" />
                         </li>
                         <li>
-                            <img src="slideshow/slide02.png" />
+                            <img src="slideshow/slide02.gif" />
                         </li>
                         <li>
-                            <img src="slideshow/slide03.png" />
+                            <img src="slideshow/slide03.gif" />
                         </li>
                     </ul>
                 </div>

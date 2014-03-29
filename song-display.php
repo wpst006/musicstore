@@ -1,6 +1,14 @@
 <?php include('includes/includefiles.php'); ?>
 
 <?php
+
+if (isset($_GET['action'])){
+    if ($_GET['action']=='delete'){
+        $song_id=$_GET['song_id'];
+        delete_song($song_id);
+    }
+}
+
 $artists_songs_Array = get_artists_songs_Array();
 $authors_songs_Array = get_authors_songs_Array();
 $song_Array = get_songs_Array($artists_songs_Array, $authors_songs_Array);
@@ -33,12 +41,12 @@ function get_songs_Array($artists_songs_Array, $authors_songs_Array) {
 }
 
 function get_artists_songs_Array() {
-    $artists_songs_sql = "SELECT `artists_songs`.`song_id`,`artists_songs`.`artist_id`,`artists`.`title` " .
+    $artists_songs_sql = "SELECT `artists_songs`.`song_id`,`artists_songs`.`artist_id`,`artists`.`artistname` " .
             "FROM `artists_songs` " .
             "INNER JOIN " .
             "`artists`" .
             "ON `artists_songs`.`artist_id`=`artists`.`artist_id` " .
-            "ORDER BY `song_id`, `title`";
+            "ORDER BY `song_id`, `artistname`";
     $artists_songs_result = mysql_query($artists_songs_sql) or die(mysql_error());
 
     $artists_songs_Array = array();
@@ -47,7 +55,7 @@ function get_artists_songs_Array() {
         $artists_songs_Array[] = array(
             'song_id' => $row['song_id'],
             'artist_id' => $row['artist_id'],
-            'title' => $row['title']
+            'artistname' => $row['artistname']
         );
     }
 
@@ -59,7 +67,7 @@ function get_artists_name($artists_songs_Array, $song_id) {
 
     foreach ($artists_songs_Array as $item) {
         if ($item['song_id'] == $song_id) {
-            $artists_name.=$item['title'] . ', ';
+            $artists_name.=$item['artistname'] . ', ';
         }
     }
 
@@ -105,6 +113,21 @@ function get_authors_name($authors_songs_Array, $song_id) {
 
     return $authors_name;
 }
+
+function delete_song($song_id){
+    $sql="DELETE FROM songs WHERE song_id='" . $song_id . "'";    
+    mysql_query($sql) or die(mysql_error());
+    
+    $sql="DELETE FROM authors_songs WHERE song_id='" . $song_id . "'";    
+    mysql_query($sql) or die(mysql_error());
+    
+    $sql="DELETE FROM artists_songs WHERE song_id='" . $song_id . "'";    
+    mysql_query($sql) or die(mysql_error());
+    
+     messageHelper::setMessage("Song ID " . $song_id . " is successfully Deleted.", MESSAGE_TYPE_SUCCESS);
+//    header("Location:albums-display.php");
+//    exit();
+}
 ?>
 
 <link href="css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
@@ -136,6 +159,14 @@ function get_authors_name($authors_songs_Array, $song_id) {
     #song_table .download-column{
         width:50px;
     }
+
+    #song_table .action-column{
+        width:175px;
+    }
+    
+    #song_table .length-column{
+        width:50px;
+    }
 </style>
 
 <?php $pageTitle = "songs display"; ?>
@@ -148,27 +179,30 @@ function get_authors_name($authors_songs_Array, $song_id) {
             <thead>
                 <tr>
                     <th class="title-column">Title</th>
-                    <th class="title-column">Length</th>
-                    <th class="title-column">Song Type</th>
+                    <th class="length-column">Length</th>
+                    <th class="songtype-column">Song Type</th>
                     <th class="artist-column">Artists</th>
                     <th class="artist-column">Authors</th>
                     <th class="price-column">Unit Price</th>
                     <th class="downloaded-count-column">Vote Count</th>
-                    <th class="download-column"></th>
+                    <th class="action-column"></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($song_Array as $row) { ?>
                     <tr>
                         <td class="title-column"><?php echo $row['title']; ?></td>
-                        <td class="title-column"><?php echo $row['length']; ?></td>
-                        <td class="title-column"><?php echo $row['song_type']; ?></td>
+                        <td class="length-column"><?php echo $row['length']; ?></td>
+                        <td class="songtype-column"><?php echo $row['song_type']; ?></td>
                         <td class="artist-column"><?php echo $row['artists']; ?></td>
                         <td class="artist-column"><?php echo $row['authors']; ?></td>
                         <td class="price-column"><?php echo $row['unitprice']; ?></td>
                         <td class="downloaded-count-column">
-                            <?php echo $row['vote_count']; ?><br/>
-                            <a href="votes.php?album_id=<?php echo $row['album_id']; ?>&song_id=<?php echo $row['song_id'];?>" >Vote</a>
+                            <?php echo $row['vote_count']; ?>
+                            <?php if ($objLogIn->isMemberLogIn() == true) { ?>
+                                <br/>
+                                <a href="votes.php?album_id=<?php echo $row['album_id']; ?>&song_id=<?php echo $row['song_id']; ?>" >Vote</a>
+                            <?php } ?>
                         </td>
                         <!--<td class="download-column"><a href="downloadfile.php?filetype=song&file=<?php echo $row['filename']; ?>">download</a></td>-->
                         <td class="action-column">
@@ -181,16 +215,18 @@ function get_authors_name($authors_songs_Array, $song_id) {
                                 $link.="&filename=" . $row['filename'];
                                 $link.="&action=add2cart";
                                 ?>
-                                <a href="<?php echo $link; ?>"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>
-                        <?php } else if ($objLogIn->isAdminLogIn()) { ?>
-                    <a href="songs.php?album_id=<?php echo $row['album_id']; ?>&song_id=<?php echo $row['song_id']; ?>">Edit</a>
-                    &nbsp;
-                    <a href="awards.php?song_id=<?php echo $row['song_id']; ?>">Award</a>
-        <!--                            <a href="albums-display.php?album_id=<?php echo $row['album_id']; ?>&action=delete" class="delete-link">Delete</a>&nbsp;-->
+                                <a href="<?php echo $link; ?>"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+                            <?php } ?>
+                            <?php if ($objLogIn->isAdminLogIn()){ ?>
+                                <a href="songs.php?album_id=<?php echo $row['album_id']; ?>&song_id=<?php echo $row['song_id']; ?>">Edit</a>
+                                &nbsp;
+                                <a href="song-display.php?album_id=<?php echo $row['album_id']; ?>&song_id=<?php echo $row['song_id']; ?>&action=delete" class="delete-link">Delete</a>&nbsp;
+                                &nbsp;
+                                <a href="awards.php?song_id=<?php echo $row['song_id']; ?>">Award</a>                                
+                            <?php } ?>
+                        </td>
+                    </tr>
                 <?php } ?>
-                </td>
-                </tr>
-            <?php } ?>
             </tbody>
         </table>
 
@@ -202,6 +238,7 @@ function get_authors_name($authors_songs_Array, $song_id) {
 <div class="row">
     <div class="col-md-12 text-right">
         <?php if ($objLogIn->isAdminLogIn() == true) { ?>
+            <a href="albums-display.php" class="btn btn-primary">Back to Album Listing</a>
             <a href="songs.php?album_id=<?php echo $_GET['album_id']; ?>" class="btn btn-primary">Add New Song</a>
         <?php } ?>
         <a href="export-song.php?album_id=<?php echo $_GET['album_id']; ?>" class="btn btn-default btn-info my-btn">Print</a>
@@ -222,5 +259,14 @@ function get_authors_name($authors_songs_Array, $song_id) {
             "bFilter": false,
             "bInfo": false,
         } );
+        
+        $( ".delete-link" ).click(function( event ) {
+            if (window.confirm("Are you sure want to delete the song?")==true){
+                return true;
+            }else{
+                event.preventDefault();
+                return false;
+            }
+        });
     });
 </script>

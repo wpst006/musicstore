@@ -6,7 +6,7 @@ $album_id = null;
 $title = '';
 $publishing_date = '';
 $publisher = '';
-$cd_dvd= '';
+$gender= '';
 
 if (isset($_POST['submitted'])) {
     if (isset($_POST['album_id'])) {        
@@ -24,7 +24,7 @@ if (isset($_POST['submitted'])) {
 
     if (isset($_GET['album_id'])) {
         $album_id=$_GET['album_id'];
-        fillDataForEditMode($album_id,$title,$publishing_date,$publisher,$cd_dvd);
+        fillDataForEditMode($album_id,$title,$publishing_date,$publisher,$gender);
     }
 }
 
@@ -133,24 +133,24 @@ function fillDataForEditMode($album_id,&$title,&$publishing_date,&$publisher,&$c
                 <div class="col-sm-9">
                     
                     <?php 
-                    $cd_checked="";
-                    $dvd_checked='';
+                    $male_checked="";
+                    $female_checked='';
                     
-                    if ($cd_dvd=='DVD'){ 
-                          $dvd_checked="checked";
+                    if ($gender=='DVD'){ 
+                          $female_checked="checked";
                     }else{
-                        $cd_checked="checked";
+                        $male_checked="checked";
                     }
                     ?>
                     <div class="radio-inline">
                         <label>
-                            <input type="radio" name="cd_dvd" id="optcd" value="CD" <?php echo $cd_checked; ?>>
+                            <input type="radio" name="cd_dvd" id="optcd" value="CD" <?php echo $male_checked; ?>>
                             CD
                         </label>
                     </div>
                     <div class="radio-inline">
                         <label>
-                            <input type="radio" name="cd_dvd" id="optdvd" value="DVD" <?php echo $dvd_checked; ?>>
+                            <input type="radio" name="cd_dvd" id="optdvd" value="DVD" <?php echo $female_checked; ?>>
                             DVD
                         </label>
                     </div>

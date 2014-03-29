@@ -1,16 +1,14 @@
 <?php include ('includes/includefiles.php'); ?>
-<?php require_once ('includes/albumHelper.php'); ?>
+<?php require_once ('includes/artistHelper.php'); ?>
 
 <?php
 if (isset($_GET['action'])) {
     if ($_GET['action'] == 'delete') {
-        $packageTour_sql = "DELETE FROM albums WHERE albums_id='" . $_GET['member_id'] . "'";
+        $packageTour_sql = "DELETE FROM artists WHERE artist_id='" . $_GET['artist_id'] . "'";
 
         mysql_query($packageTour_sql) or die(mysql_error());
         //*********************************************************************
-        messageHelper::setMessage("You have successfully deleted a album.", MESSAGE_TYPE_SUCCESS);
-        header("Location:albums-display.php");
-        exit();
+        messageHelper::setMessage("You have successfully deleted a artist.", MESSAGE_TYPE_SUCCESS);
     }
 }
 
@@ -20,27 +18,27 @@ if (isset($_POST['submitted'])) {
         $searchKey = $_POST['searchKey'];
     }
 
-    $albumData = albumHelper::searchAlbum($searchKey);
+    $artistData = artistHelper::searchArtist($searchKey);
 } else {
-    $albumData = albumHelper::selectAll();
+    $artistData = artistHelper::selectAll();
 }
 ?>
-<?php $pageTitle = "albums Display"; ?>
+<?php $pageTitle = "Artists Display"; ?>
 <?php include ('includes/header.php'); ?>
 
 <link href="css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
 
 <div class="row">
     <div class="col-md-12">
-        <form class="form-inline" id="search" name="search" action="albums-display.php" method="post" role="form" >
+        <form class="form-inline" id="search" name="search" action="artists-display.php" method="post" role="form" >
             <div class="form-group">
-                <label class="sr-only" for="exampleInputEmail2">albums :</label>
+                <label class="sr-only" for="exampleInputEmail2">Artists :</label>
                 <input type="text" id="searchKey" name="searchKey" class="form-control" value="<?php echo isset($_POST['searchKey']) ? $_POST['searchKey'] : "" ?>" maxlength="30" placeholder="Search"/>
             </div>
             <div class="form-group btn-row">
                 <button type="submit" name="submitted" class="btn btn-default btn-success my-btn">Search</button>
                 <?php
-                $link = "export-albums.php";
+                $link = "export-artists.php";
 
                 if (isset($_POST['searchKey']) || isset($fromDate) || isset($toDate)) {
                     $link.="?searchKey=" . $_POST['searchKey'];
@@ -52,37 +50,30 @@ if (isset($_POST['submitted'])) {
         </form>
         <br/>
 
-       <table id="album_table">
+       <table id="artist_table">
             <thead>
                 <tr>
-                    <th class="title-column">Album ID</th>
-                    <th class="artist-column">Title</th>
-<!--                    <th class="price-column">Publishing Date</th>-->
-                    <!--<th class="downloaded-count-column">Publisher</th>-->
-                    <th class="downloaded-count-column">Type</th>
+                    <th class="title-column">artist ID</th>
+                    <th class="artist-column">Name</th>
+                    <th class="downloaded-count-column">Gender</th>
                     <th class="action-column"></th>
                 </tr>
             </thead>
             <tbody>
                 <?php $objLogIn = new logIn; ?>
-                <?php foreach ($albumData as $row) { ?>
+                <?php foreach ($artistData as $row) { ?>
                     <tr>
-                        <td class="title-column"><?php echo $row['album_id']; ?></td>
-                        <td class="title-column"><?php echo $row['title']; ?></td>
-<!--                        <td class="artist-column"><?php echo $row['publishing_date']; ?></td>-->
-                        <!--<td class="price-column"><?php echo $row['publisher']; ?></td>-->
-                        <td class="price-column"><?php echo $row['cd_dvd']; ?></td>
+                        <td class="title-column"><?php echo $row['artist_id']; ?></td>
+                        <td class="title-column"><?php echo $row['artistname']; ?></td>
+                        <td class="price-column"><?php echo $row['gender']; ?></td>
                         <td class="action-column">
                             <?php
                             $link = '';
 
                             if ($objLogIn->isAdminLogIn() == true) {
                             ?>
-                            <a href="album.php?album_id=<?php echo $row['album_id']; ?>">Edit</a>&nbsp;
-                            <a href="albums-display.php?album_id=<?php echo $row['album_id']; ?>&action=delete" class="delete-link">Delete</a>&nbsp;
-                            <a href="song-display.php?album_id=<?php echo $row['album_id']; ?>">View Song</a>
-                            <?php }else if ($objLogIn->isMemberLogIn()){ ?>
-                                <a href="song-display.php?album_id=<?php echo $row['album_id']; ?>">View Song</a>
+                            <a href="artists.php?artist_id=<?php echo $row['artist_id']; ?>">Edit</a>&nbsp;
+                            <a href="artists-display.php?artist_id=<?php echo $row['artist_id']; ?>&action=delete" class="delete-link">Delete</a>&nbsp;                            
                             <?php } ?>
                         </td>
                     </tr>
@@ -95,7 +86,7 @@ if (isset($_POST['submitted'])) {
 <div class="row">
     <div class="col-md-12 text-right">
         <?php if ($objLogIn->isAdminLogIn() == true) { ?>
-            <a href="album.php" class="btn btn-primary btn-block">Add New Album</a>
+            <a href="artists.php" class="btn btn-primary btn-block">Add New artist</a>
         <?php } ?>        
     </div>
 </div>
@@ -103,16 +94,16 @@ if (isset($_POST['submitted'])) {
 <script type="text/javascript" src="js/datatable/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $('#album_table').dataTable( {
+        $('#artist_table').dataTable( {
             //"sPaginationType": "bootstrap",
             "sPaginationType": "full_numbers",
             "bLengthChange": false,
             "bFilter": false,
-            "bInfo": false,
+            "bInfo": false
         } );
         
         $( ".delete-link" ).click(function( event ) {
-            if (window.confirm("Are you sure want to delete the album?")==true){
+            if (window.confirm("Are you sure want to delete the artist?")==true){
                 return true;
             }else{
                 event.preventDefault();
@@ -122,4 +113,4 @@ if (isset($_POST['submitted'])) {
     });
 </script>
 
-<?php include ('includes/footer.php'); ?>
+<?php include('includes/footer.php'); ?>

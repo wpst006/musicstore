@@ -235,13 +235,13 @@ function fillDataForEditMode($song_id, &$title, &$length,&$song_type,&$unitprice
                 <label class="col-sm-3 control-label">Artist(s) :</label>
                 <div class="col-sm-9">
                     <?php
-                    $sql = "SELECT artist_id,title FROM artists " .
-                            "ORDER BY title";
+                    $sql = "SELECT artist_id,artistname FROM artists " .
+                            "ORDER BY artistname";
                     $result = mysql_query($sql) or die(mysql_error());
                     ?>
                     <select id="artist_id" name="artist_id[]" class="chosen-select" multiple="true" data-placeholder="Choose artist(s) ...">
                         <?php while ($row = mysql_fetch_array($result)) { ?>
-                            <option value="<?php echo $row['artist_id']; ?>"><?php echo $row['title']; ?></option>
+                            <option value="<?php echo $row['artist_id']; ?>"><?php echo $row['artistname']; ?></option>
                         <?php } ?>
                     </select>
                     <input type="hidden" id="artist_ids_string" name="artist_ids_string" value="<?php echo $artist_ids_string; ?>" />

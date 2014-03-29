@@ -76,6 +76,10 @@ if ($action == 'remove') {
     #song_table .download-column{
         width:50px;
     }  
+    
+    #templatemo_sidebar{
+        display:none;
+    }
 </style>
 
                 <div class="row">

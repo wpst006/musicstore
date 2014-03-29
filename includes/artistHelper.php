@@ -1,16 +1,16 @@
 <?php
-class authorHelper{
+class artistHelper{
     
     public static function selectAll(){
-        $sql = "SELECT * FROM authors ORDER BY authorname";
+        $sql = "SELECT * FROM artists ORDER BY artistname";
         $result = mysql_query($sql) or die(mysql_error());
         
         $output=array(); 
                         
         while ($row = mysql_fetch_array($result)){
             $output[]=array(
-                'author_id'=>$row['author_id'],
-                'authorname'=>$row['authorname'],
+                'artist_id'=>$row['artist_id'],
+                'artistname'=>$row['artistname'],
                 'gender'=>$row['gender'],            
             );
         }
@@ -18,16 +18,16 @@ class authorHelper{
         return $output;
     }        
         
-    public static function getAuthorByAuthorID($author_id){
-        $sql = "SELECT * FROM authors WHERE author_id='" . $author_id . "'";
+    public static function getArtistByArtistID($artist_id){
+        $sql = "SELECT * FROM artists WHERE artist_id='" . $artist_id . "'";
         $result = mysql_query($sql) or die(mysql_error());
         
         $output=array(); 
                         
         while ($row = mysql_fetch_array($result)){
             $output[]=array(
-                'author_id'=>$row['author_id'],
-                'authorname'=>$row['authorname'],
+                'artist_id'=>$row['artist_id'],
+                'artistname'=>$row['artistname'],
                 'gender'=>$row['gender'],            
             );
         }
@@ -35,12 +35,12 @@ class authorHelper{
         return $output;
     }   
     
-    public static function searchAuthor($searchKey) {
+    public static function searchArtist($searchKey) {
         $sql = "SELECT * " .
-                "FROM authors " .
-                "WHERE author_id LIKE '%" . $searchKey . "%' " .
-                "OR authorname LIKE '%" . $searchKey . "%' " .
-                "ORDER BY authors.authorname";
+                "FROM artists " .
+                "WHERE artist_id LIKE '%" . $searchKey . "%' " .
+                "OR artistname LIKE '%" . $searchKey . "%' " .
+                "ORDER BY artists.artistname";
 
         $result = mysql_query($sql) or die(mysql_error());
 
@@ -48,8 +48,8 @@ class authorHelper{
         
         while ($row = mysql_fetch_array($result)){
             $output[]=array(
-                'author_id'=>$row['author_id'],
-                'authorname'=>$row['authorname'],
+                'artist_id'=>$row['artist_id'],
+                'artistname'=>$row['artistname'],
                 'gender'=>$row['gender'],            
             );
         }
