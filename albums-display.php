@@ -4,7 +4,7 @@
 <?php
 if (isset($_GET['action'])) {
     if ($_GET['action'] == 'delete') {
-        $packageTour_sql = "DELETE FROM albums WHERE albums_id='" . $_GET['member_id'] . "'";
+        $packageTour_sql = "DELETE FROM albums WHERE album_id='" . $_GET['album_id'] . "'";
 
         mysql_query($packageTour_sql) or die(mysql_error());
         //*********************************************************************

@@ -21,13 +21,19 @@
                 <div id="site_title">
                     <h1><a href="index.php">Online Music Store</a></h1>
                 </div>
-                <!--
-                                <div id="search_box">
-                                    <form action="#" method="get">
-                                        <input type="text" value="" name="q" size="10" id="searchfield" title="searchfield" onfocus="clearText(this)" onblur="clearText(this)" />
-                                        <input type="submit" name="Search" value="Search" alt="Search" id="searchbutton" title="Search" />
-                                    </form>
-                                </div>-->
+
+                <div id="search_box">
+<!--                    <form action="#" method="get">
+                        <input type="text" value="" name="q" size="10" id="searchfield" title="searchfield" onfocus="clearText(this)" onblur="clearText(this)" />
+                        <input type="submit" name="Search" value="Search" alt="Search" id="searchbutton" title="Search" />
+                    </form>-->
+                    <?php
+                    $loggedInData=$objLogIn->getLoggedInData();
+                    if ($loggedInData!=null){
+                        echo "logged in as <b>" . $loggedInData['username'] . "</b>";
+                    }
+                    ?>
+                </div>
 
                 <div class="cleaner"></div>
             </div><!-- end of header -->
