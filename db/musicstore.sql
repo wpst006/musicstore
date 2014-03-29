@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 29, 2014 at 12:49 PM
+-- Generation Time: Mar 29, 2014 at 01:34 PM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -197,9 +197,11 @@ CREATE TABLE IF NOT EXISTS `members` (
 --
 
 INSERT INTO `members` (`member_id`, `firstname`, `lastname`, `DOB`, `contact_phone`, `contact_email`, `country`, `zipcode`) VALUES
-('MEM_000002', 'a', 'a', '2014-03-27 00:00:00', 'a', 'a@gmail.com', 'a', 'a'),
+('MEM_000001', 'admin', 'admin', '2014-03-06 00:00:00', 'admin', 'admin', 'admin', 'admin'),
+('MEM_000002', 'a', 'a', '2014-03-27 00:00:00', 'a', 'a@gmail.com', 'a', 'abc'),
 ('MEM_000003', 'b', 'b', '2014-03-27 00:00:00', 'b', 'b@gmail.com', 'b', 'b'),
-('MEM_000004', 'c', 'c', '2014-03-29 00:00:00', 'c', 'c@gmail.com', 'c', 'c');
+('MEM_000004', 'c', 'c', '2014-03-29 00:00:00', 'c', 'c@gmail.com', 'c', 'c'),
+('MEM_000005', 'd', 'd', '2014-03-29 00:00:00', 'd', 'd@gmail.com', 'd', 'd');
 
 -- --------------------------------------------------------
 
@@ -337,7 +339,8 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `role`) VALUES
 ('MEM_000001', 'admin', 'admin@gmail.com', 'admin', 'admin'),
 ('MEM_000002', 'a', 'a@gmail.com', 'a', 'member'),
 ('MEM_000003', 'b', 'b@gmail.com', 'b', 'member'),
-('MEM_000004', 'c', 'c@gmail.com', 'c', 'member');
+('MEM_000004', 'c', 'c@gmail.com', 'c', 'member'),
+('MEM_000005', 'd', 'd@gmail.com', 'd', 'member');
 
 -- --------------------------------------------------------
 
