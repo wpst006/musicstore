@@ -86,7 +86,7 @@
             </tbody>
         </table>
         <br/>
-        <a href="export-purchase-detail.php?purchase_id=<?php echo $_GET['purchase_id']; ?>" class="btn btn-default btn-info my-btn pull-right btn-block">Print</a>
+        <a href="export-purchase-detail.php?purchase_id=<?php echo $_GET['purchase_id']; ?>" class="btn btn-default btn-info my-btn pull-right btn-block" target="_blank">Print</a>
     </div>
 </div>
 

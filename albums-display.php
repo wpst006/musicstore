@@ -48,7 +48,7 @@ if (isset($_POST['submitted'])) {
     }
 
     .album-item .title{
-        color: #0075c5;
+        color: black;
         margin-bottom: 0px;
         padding-bottom: 0px;
     }
@@ -95,19 +95,28 @@ if (isset($_POST['submitted'])) {
                             <div class="album-wrapper clearfix">
                                 <?php for ($j = $i; $j < $i + 3; $j++) { ?>
                                     <div class="album-item">
-                                        <?php if (array_key_exists($j, $albumData)) { ?>                                
+                                        <?php if (array_key_exists($j, $albumData)) { ?>  
+                                            <?php
+                                            $link='#';
+                                            
+                                            if ($objLogIn->isLoggedIn()==true){
+                                                $link='song-display.php?album_id=' . $albumData[$j]['album_id'];
+                                            }
+                                            ?>
                                             <p class="title"><?php echo $albumData[$j]['title']; ?></p>
-                                            <img src="<?php echo 'files/images/' . $albumData[$j]['filename']; ?>" width="150" height="150"/><br/>
+                                            <a href="<?php echo $link; ?>">
+                                                <img src="<?php echo 'files/images/' . $albumData[$j]['filename']; ?>" width="150" height="150"/>
+                                            </a>
+                                            <br/>
                                             <?php
                                             $link = '';
 
                                             if ($objLogIn->isAdminLogIn() == true) {
                                                 ?>
                                                 <a href="album.php?album_id=<?php echo $albumData[$j]['album_id']; ?>">Edit</a>&nbsp;
-                                                <a href="albums-display.php?album_id=<?php echo $albumData[$j]['album_id']; ?>&action=delete" class="delete-link">Delete</a><br/>
-                                                <a href="song-display.php?album_id=<?php echo $albumData[$j]['album_id']; ?>">View Song</a>
+                                                <a href="albums-display.php?album_id=<?php echo $albumData[$j]['album_id']; ?>&action=delete" class="delete-link">Delete</a><br/>                                                
                                             <?php } else if ($objLogIn->isMemberLogIn()) { ?>
-                                                <a href="song-display.php?album_id=<?php echo $albumData[$j]['album_id']; ?>">View Song</a>
+<!--                                                <a href="song-display.php?album_id=<?php echo $albumData[$j]['album_id']; ?>">View Song</a>-->
                                             <?php }//end of outer for loop ?>
                                         <?php } //end of "if" ?>
                                     </div>

@@ -1,4 +1,5 @@
 <?php include('includes/includefiles.php'); ?>
+<?php require_once('includes/songHelper.php'); ?>
 
 <?php
 
@@ -241,7 +242,7 @@ function delete_song($song_id){
             <a href="albums-display.php" class="btn btn-primary">Back to Album Listing</a>
             <a href="songs.php?album_id=<?php echo $_GET['album_id']; ?>" class="btn btn-primary">Add New Song</a>
         <?php } ?>
-        <a href="export-song.php?album_id=<?php echo $_GET['album_id']; ?>" class="btn btn-default btn-info my-btn">Print</a>
+        <a href="export-song.php?album_id=<?php echo $_GET['album_id']; ?>" class="btn btn-default btn-info my-btn" target="_blank">Print</a>
     </div>
 </div>
 

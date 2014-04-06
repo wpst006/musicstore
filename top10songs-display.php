@@ -17,7 +17,7 @@ $songData = songHelper::getTop10Songs();
                 <tr>
                     <th class="title-column">song ID</th>
                     <th class="song-column">Title</th>
-                    <th class="downloaded-count-column">Length</th>
+                    <th class="downloaded-count-column">Artists</th>
                     <th class="downloaded-count-column">Song Type</th>
                     <th class="downloaded-count-column">Unit Price</th>
                     <th class="downloaded-count-column">Purchase Count</th>                    
@@ -29,7 +29,7 @@ $songData = songHelper::getTop10Songs();
                     <tr>
                         <td class="title-column"><?php echo $row['song_id']; ?></td>
                         <td class="title-column"><?php echo $row['title']; ?></td>
-                        <td class="price-column"><?php echo $row['length']; ?></td>  
+                        <td class="price-column"><?php echo $row['artists']; ?></td>  
                         <td class="title-column"><?php echo $row['song_type']; ?></td>
                         <td class="title-column"><?php echo $row['unitprice']; ?></td>
                         <td class="price-column"><?php echo $row['purchase_count']; ?></td>        
