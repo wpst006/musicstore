@@ -3,19 +3,19 @@
     <div class="flexslider-sidebar">
         <ul class="slides">
             <li>
-                <img src="slideshow/gallery/mariah.gif" />
+                <img src="slideshow/gallery/mariah.png" />
             </li>
             <li>
-                <img src="slideshow/gallery/JLo.gif" />
+                <img src="slideshow/gallery/JLo.png" />
             </li>
             <li>
-                <img src="slideshow/gallery/britney.gif" />
+                <img src="slideshow/gallery/britney.png" />
             </li>
             <li>
-                <img src="slideshow/gallery/rihanna.gif" />
+                <img src="slideshow/gallery/rihanna.png" />
             </li>
             <li>
-                <img src="slideshow/gallery/ladygaga.gif" />
+                <img src="slideshow/gallery/ladygaga.png" />
             </li>
         </ul>
     </div>

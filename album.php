@@ -6,10 +6,11 @@ $album_id = null;
 $title = '';
 $publishing_date = '';
 $publisher = '';
-$gender= '';
+$gender = '';
+$filename = '';
 
 if (isset($_POST['submitted'])) {
-    if (isset($_POST['album_id'])) {        
+    if (isset($_POST['album_id'])) {
         $status = updateAlbum($album_id);
     } else {
         $status = saveNewAlbum($album_id);
@@ -23,8 +24,8 @@ if (isset($_POST['submitted'])) {
 } else {
 
     if (isset($_GET['album_id'])) {
-        $album_id=$_GET['album_id'];
-        fillDataForEditMode($album_id,$title,$publishing_date,$publisher,$gender);
+        $album_id = $_GET['album_id'];
+        fillDataForEditMode($album_id, $title, $publishing_date, $publisher, $gender, $filename);
     }
 }
 
@@ -34,16 +35,17 @@ function saveNewAlbum(&$album_id) {
     $title = $_POST['title'];
     $publishing_date = $_POST['publishing_date'];
     $publisher = $_POST['publisher'];
-    $cd_dvd=$_POST['cd_dvd'];
+    $cd_dvd = $_POST['cd_dvd'];
+    $filename = $_POST['uploadedalbum'];
     //******************************************************************************************************************    
     //"albums" Table Insert
     $albumInsert_sql = "INSERT INTO " .
-            "`albums` (album_id,title,publishing_date,publisher,cd_dvd) " .
-            "VALUES('$album_id','$title','$publishing_date','$publisher','$cd_dvd')";
+            "`albums` (album_id,title,publishing_date,publisher,cd_dvd,filename) " .
+            "VALUES('$album_id','$title','$publishing_date','$publisher','$cd_dvd','$filename')";
 
     mysql_query($albumInsert_sql) or die(mysql_error());
     //******************************************************************************************************************
-    
+
     return true;
 }
 
@@ -53,14 +55,16 @@ function updateAlbum(&$album_id) {
     $title = $_POST['title'];
     $publishing_date = $_POST['publishing_date'];
     $publisher = $_POST['publisher'];
-    $cd_dvd=$_POST['cd_dvd'];
+    $cd_dvd = $_POST['cd_dvd'];
+    $filename = $_POST['uploadedalbum'];
     //******************************************************************************************************************
     //"ablums" Table Update
     $albumUpdate_sql = "UPDATE `albums` SET " .
             "title='" . $title . "'," .
             "publishing_date='" . $publishing_date . "', " .
             "publisher='" . $publisher . "', " .
-            "cd_dvd='" . $cd_dvd . "' " .
+            "cd_dvd='" . $cd_dvd . "', " .
+            "filename='" . $filename . "' " .
             "WHERE album_id='" . $album_id . "'";
 
     mysql_query($albumUpdate_sql) or die(mysql_error());
@@ -69,17 +73,18 @@ function updateAlbum(&$album_id) {
     return true;
 }
 
-function fillDataForEditMode($album_id,&$title,&$publishing_date,&$publisher,&$cd_dvd) {
-    $alblumData=albumHelper::getAlbumByAlbumID($album_id);
-    $album_id=$alblumData[0]['album_id'];
-    $title=$alblumData[0]['title'];
-    $publishing_date=$alblumData[0]['publishing_date'];
-    $publisher=$alblumData[0]['publisher'];
-    $cd_dvd=$alblumData[0]['cd_dvd'];
+function fillDataForEditMode($album_id, &$title, &$publishing_date, &$publisher, &$cd_dvd, &$filename) {
+    $alblumData = albumHelper::getAlbumByAlbumID($album_id);
+    $album_id = $alblumData[0]['album_id'];
+    $title = $alblumData[0]['title'];
+    $publishing_date = $alblumData[0]['publishing_date'];
+    $publisher = $alblumData[0]['publisher'];
+    $cd_dvd = $alblumData[0]['cd_dvd'];
+    $filename = $alblumData[0]['filename'];
 }
 ?>
 
-<?php $pageTitle="album" ?>
+<?php $pageTitle = "album" ?>
 <?php include('includes/header.php'); ?>
 
 <div class="row">
@@ -131,15 +136,15 @@ function fillDataForEditMode($album_id,&$title,&$publishing_date,&$publisher,&$c
             <div class="form-group">
                 <div class="col-sm-3 control-label"></div>
                 <div class="col-sm-9">
-                    
-                    <?php 
-                    $male_checked="";
-                    $female_checked='';
-                    
-                    if ($gender=='DVD'){ 
-                          $female_checked="checked";
-                    }else{
-                        $male_checked="checked";
+
+                    <?php
+                    $male_checked = "";
+                    $female_checked = '';
+
+                    if ($gender == 'DVD') {
+                        $female_checked = "checked";
+                    } else {
+                        $male_checked = "checked";
                     }
                     ?>
                     <div class="radio-inline">
@@ -156,6 +161,18 @@ function fillDataForEditMode($album_id,&$title,&$publishing_date,&$publisher,&$c
                     </div>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">File :</label>
+                <div class="col-sm-9">
+                    <img id="albumpreview" src="<?php echo "files/images/" . $filename; ?>" width="100px" height="100px" />
+                    <label id="album_file_name"></label>
+                    <!--<input type="file" id="album" name="album" size="40"/>-->
+                    <br/><br/>
+                    <button id="btn_upload_album" name="btn_upload_photo" class="btn btn-info">Upload album cover</button>
+                    <input type="hidden" name="uploadedalbum" id="uploadedalbum" value="<?php echo $filename; ?>"></input>
+                </div>
+            </div>      
 
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
@@ -191,4 +208,32 @@ function fillDataForEditMode($album_id,&$title,&$publishing_date,&$publisher,&$c
             }
         });
     });          
+</script>
+
+<script type="text/javascript" src="js/ajaxupload.js"></script>
+<script type="text/javascript">
+        
+    $(document).ready(function(){                          
+        //Work only in "new" mode           
+        var albumPreview = $('#albumpreview'); //id of the preview image
+        new AjaxUpload('btn_upload_album', {
+            action: 'savefile.php?filetype=image', //the php script that receives and saves the image
+            name: 'image', //The saveimagephp will find the image info in the variable $_FILES['image']
+            onSubmit: function(file, extension) {
+                albumPreview.show();
+                albumPreview.attr('src', 'ajaxSpinner.gif'); //replace the image SRC with an animated GIF with a 'loading...' message 
+            },
+            onComplete: function(file, response) {
+                albumPreview.load(function(){
+                    albumPreview.unbind();
+                });
+                //albumPreview.hide();
+                //photoPreview.attr('src', response); //make the preview image display the uploaded file
+                $('#album_file_name').html(response);
+                $('#albumpreview').attr('src','files/images/' + response);
+                $('#uploadedalbum').val(response); //drop the path to the file into the hidden field
+            }
+        }); 
+                 
+    });
 </script>

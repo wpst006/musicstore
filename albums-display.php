@@ -25,10 +25,39 @@ if (isset($_POST['submitted'])) {
     $albumData = albumHelper::selectAll();
 }
 ?>
-<?php $pageTitle = "albums Display"; ?>
+<?php $pageTitle = "Albums Display"; ?>
 <?php include ('includes/header.php'); ?>
 
 <link href="css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+<style>
+    #album_table{
+        width:100%;
+        border-top: solid 2px #0075c5; 
+    }
+
+    #album_table tr td{
+        /*border: solid 1px #0075c5;*/
+        padding-bottom: 10px;
+    }
+
+    .album-item{
+        width:33%;
+        float:left;
+        text-align: center;
+    }
+
+    .album-item .title{
+        color: #0075c5;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+    }
+    
+    .album-wrapper{
+        border-bottom: solid 2px #0075c5;  
+        padding-bottom:10px;
+    }
+</style>
 
 <div class="row">
     <div class="col-md-12">
@@ -52,38 +81,38 @@ if (isset($_POST['submitted'])) {
         </form>
         <br/>
 
-       <table id="album_table">
+        <table id="album_table">
             <thead>
                 <tr>
-                    <th class="title-column">Album ID</th>
-                    <th class="artist-column">Title</th>
-<!--                    <th class="price-column">Publishing Date</th>-->
-                    <!--<th class="downloaded-count-column">Publisher</th>-->
-                    <th class="downloaded-count-column">Type</th>
-                    <th class="action-column"></th>
+                    <th></th>                    
                 </tr>
             </thead>
             <tbody>
                 <?php $objLogIn = new logIn; ?>
-                <?php foreach ($albumData as $row) { ?>
+                <?php for ($i = 0; $i < count($albumData); $i+=3) { ?>
                     <tr>
-                        <td class="title-column"><?php echo $row['album_id']; ?></td>
-                        <td class="title-column"><?php echo $row['title']; ?></td>
-<!--                        <td class="artist-column"><?php echo $row['publishing_date']; ?></td>-->
-                        <!--<td class="price-column"><?php echo $row['publisher']; ?></td>-->
-                        <td class="price-column"><?php echo $row['cd_dvd']; ?></td>
-                        <td class="action-column">
-                            <?php
-                            $link = '';
+                        <td>
+                            <div class="album-wrapper clearfix">
+                                <?php for ($j = $i; $j < $i + 3; $j++) { ?>
+                                    <div class="album-item">
+                                        <?php if (array_key_exists($j, $albumData)) { ?>                                
+                                            <p class="title"><?php echo $albumData[$j]['title']; ?></p>
+                                            <img src="<?php echo 'files/images/' . $albumData[$j]['filename']; ?>" width="150" height="150"/><br/>
+                                            <?php
+                                            $link = '';
 
-                            if ($objLogIn->isAdminLogIn() == true) {
-                            ?>
-                            <a href="album.php?album_id=<?php echo $row['album_id']; ?>">Edit</a>&nbsp;
-                            <a href="albums-display.php?album_id=<?php echo $row['album_id']; ?>&action=delete" class="delete-link">Delete</a>&nbsp;
-                            <a href="song-display.php?album_id=<?php echo $row['album_id']; ?>">View Song</a>
-                            <?php }else if ($objLogIn->isMemberLogIn()){ ?>
-                                <a href="song-display.php?album_id=<?php echo $row['album_id']; ?>">View Song</a>
-                            <?php } ?>
+                                            if ($objLogIn->isAdminLogIn() == true) {
+                                                ?>
+                                                <a href="album.php?album_id=<?php echo $albumData[$j]['album_id']; ?>">Edit</a>&nbsp;
+                                                <a href="albums-display.php?album_id=<?php echo $albumData[$j]['album_id']; ?>&action=delete" class="delete-link">Delete</a><br/>
+                                                <a href="song-display.php?album_id=<?php echo $albumData[$j]['album_id']; ?>">View Song</a>
+                                            <?php } else if ($objLogIn->isMemberLogIn()) { ?>
+                                                <a href="song-display.php?album_id=<?php echo $albumData[$j]['album_id']; ?>">View Song</a>
+                                            <?php }//end of outer for loop ?>
+                                        <?php } //end of "if" ?>
+                                    </div>
+                                <?php }//end of inner for loop ?>                            
+                            </div>
                         </td>
                     </tr>
                 <?php } ?>
@@ -94,6 +123,7 @@ if (isset($_POST['submitted'])) {
 <br/>
 <div class="row">
     <div class="col-md-12 text-right">
+        <a href="top10songs-display.php" class="btn btn-info btn-block">View Top 10 Songs</a>
         <?php if ($objLogIn->isAdminLogIn() == true) { ?>
             <a href="album.php" class="btn btn-primary btn-block">Add New Album</a>
         <?php } ?>        
@@ -103,13 +133,13 @@ if (isset($_POST['submitted'])) {
 <script type="text/javascript" src="js/datatable/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $('#album_table').dataTable( {
-            //"sPaginationType": "bootstrap",
-            "sPaginationType": "full_numbers",
-            "bLengthChange": false,
-            "bFilter": false,
-            "bInfo": false,
-        } );
+        //        $('#album_table').dataTable( {
+        //            //"sPaginationType": "bootstrap",
+        //            "sPaginationType": "full_numbers",
+        //            "bLengthChange": false,
+        //            "bFilter": false,
+        //            "bInfo": false,
+        //        } );
         
         $( ".delete-link" ).click(function( event ) {
             if (window.confirm("Are you sure want to delete the album?")==true){

@@ -13,7 +13,8 @@ class albumHelper{
                 'title'=>$row['title'],
                 'publishing_date'=>$row['publishing_date'],
                 'publisher'=>$row['publisher'],
-                'cd_dvd'=>$row['cd_dvd'],               
+                'cd_dvd'=>$row['cd_dvd'],       
+                'filename'=>$row['filename']
             );
         }
         
@@ -37,7 +38,8 @@ class albumHelper{
                 'title'=>$row['title'],
                 'publishing_date'=>$row['publishing_date'],
                 'publisher'=>$row['publisher'],
-                'cd_dvd'=>$row['cd_dvd'],               
+                'cd_dvd'=>$row['cd_dvd'],      
+                'filename'=>$row['filename']
             );
         }
 
@@ -56,7 +58,8 @@ class albumHelper{
                 'title'=>$row['title'],
                 'publishing_date'=>$row['publishing_date'],
                 'publisher'=>$row['publisher'],
-                'cd_dvd'=>$row['cd_dvd'],               
+                'cd_dvd'=>$row['cd_dvd'],     
+                'filename'=>$row['filename']
             );
         }
         

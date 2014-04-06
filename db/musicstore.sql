@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 01, 2014 at 11:09 AM
+-- Generation Time: Apr 06, 2014 at 10:41 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `albums` (
   `publishing_date` datetime NOT NULL,
   `publisher` varchar(50) NOT NULL,
   `cd_dvd` varchar(15) NOT NULL,
+  `filename` varchar(255) NOT NULL,
   PRIMARY KEY (`album_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -39,10 +40,13 @@ CREATE TABLE IF NOT EXISTS `albums` (
 -- Dumping data for table `albums`
 --
 
-INSERT INTO `albums` (`album_id`, `title`, `publishing_date`, `publisher`, `cd_dvd`) VALUES
-('ALM_000001', 'Eminem Album', '2014-03-29 00:00:00', 'Publisher 1', 'DVD'),
-('ALM_000002', 'Mariah Carey Album', '2014-03-27 00:00:00', 'Publisher 2', 'CD'),
-('ALM_000003', 'Britney Spear Album', '2014-03-27 00:00:00', 'Publisher 1', 'CD');
+INSERT INTO `albums` (`album_id`, `title`, `publishing_date`, `publisher`, `cd_dvd`, `filename`) VALUES
+('ALM_000001', 'Eminem Album', '2014-04-05 00:00:00', 'Publisher 1', 'DVD', 'eminem.png'),
+('ALM_000002', 'Mariah Carey Album', '2014-04-05 00:00:00', 'Publisher 2', 'CD', 'mariah.png'),
+('ALM_000003', 'Britney Spear Album', '2014-04-05 00:00:00', 'Publisher 1', 'CD', 'britney.png'),
+('ALM_000005', 'Backstreet Boy Album', '2014-04-05 00:00:00', 'Publisher 1', 'CD', 'backstreetboys.png'),
+('ALM_000006', 'J Lo Album', '2014-04-05 00:00:00', 'Publisher 2', 'CD', 'jLo.png'),
+('ALM_000007', 'Lady Ga Ga Album', '2014-04-05 00:00:00', 'Publisher 2', 'CD', 'gaga.png');
 
 -- --------------------------------------------------------
 
@@ -160,7 +164,8 @@ CREATE TABLE IF NOT EXISTS `awards` (
 --
 
 INSERT INTO `awards` (`award_id`, `award_year`, `vote_count`, `song_id`) VALUES
-('AWD_000001', '2014-03-29 00:00:00', 1, 'SNG_000001');
+('AWD_000001', '2014-03-29 00:00:00', 1, 'SNG_000001'),
+('AWD_000002', '2014-04-05 00:00:00', 2, 'SNG_000004');
 
 -- --------------------------------------------------------
 
@@ -314,7 +319,7 @@ INSERT INTO `songs` (`song_id`, `title`, `length`, `album_id`, `song_type`, `fil
 ('SNG_000001', 'Love the way you lie', '3 min', 'ALM_000001', 'Rap', 'Love the way you lie - Eminem.mp3', '100.00', 1),
 ('SNG_000002', 'I Need a doctor', '6 min', 'ALM_000001', 'Rap', 'I need a doctor - Eminem.mp3', '75.00', 0),
 ('SNG_000003', 'My All', '5 min', 'ALM_000002', 'Pop', 'Mariah Carey - My All.mp3', '50.00', 0),
-('SNG_000004', 'Toxic', '3 min', 'ALM_000003', 'Pop', 'Britney Spears - Toxic.mp3', '30.00', 1);
+('SNG_000004', 'Toxic', '3 min', 'ALM_000003', 'Pop', 'Britney Spears - Toxic.mp3', '30.00', 2);
 
 -- --------------------------------------------------------
 
@@ -363,7 +368,8 @@ CREATE TABLE IF NOT EXISTS `votes` (
 
 INSERT INTO `votes` (`vote_id`, `vote_date`, `member_id`, `song_id`, `messagedetails`) VALUES
 ('VOT_000001', '2014-03-27 00:00:00', 'MEM_000002', 'SNG_000001', 'I Like It'),
-('VOT_000002', '2014-03-27 00:00:00', 'MEM_000003', 'SNG_000004', ' Very Nice.                 ');
+('VOT_000002', '2014-03-27 00:00:00', 'MEM_000003', 'SNG_000004', ' Very Nice.                 '),
+('VOT_000003', '2014-04-05 00:00:00', 'MEM_000002', 'SNG_000004', '                    ');
 
 -- --------------------------------------------------------
 
