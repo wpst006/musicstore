@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 06, 2014 at 10:41 AM
+-- Generation Time: Apr 06, 2014 at 11:30 AM
 -- Server version: 5.5.24-log
 -- PHP Version: 5.3.13
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `artists_songs` (
   `artist_id` varchar(15) NOT NULL,
   `song_id` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `artists_songs`
@@ -96,7 +96,8 @@ INSERT INTO `artists_songs` (`id`, `artist_id`, `song_id`) VALUES
 (4, 'ART_000002', 'SNG_000001'),
 (5, 'ART_000001', 'SNG_000002'),
 (6, 'ART_000003', 'SNG_000003'),
-(8, 'ART_000007', 'SNG_000004');
+(8, 'ART_000007', 'SNG_000004'),
+(9, 'ART_000005', 'SNG_000005');
 
 -- --------------------------------------------------------
 
@@ -132,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `authors_songs` (
   `author_id` varchar(15) NOT NULL,
   `song_id` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `authors_songs`
@@ -143,7 +144,8 @@ INSERT INTO `authors_songs` (`id`, `author_id`, `song_id`) VALUES
 (3, 'AUT_000002', 'SNG_000002'),
 (4, 'AUT_000003', 'SNG_000003'),
 (5, 'AUT_000004', 'SNG_000003'),
-(7, 'AUT_000002', 'SNG_000004');
+(7, 'AUT_000002', 'SNG_000004'),
+(8, 'AUT_000001', 'SNG_000005');
 
 -- --------------------------------------------------------
 
@@ -232,7 +234,8 @@ CREATE TABLE IF NOT EXISTS `payments` (
 INSERT INTO `payments` (`payment_id`, `paymentdate`, `purchase_id`, `cardno`, `cardtype`, `cardholdername`, `securitycode`) VALUES
 ('1122871123', '2014-03-27 12:07:42', '1155614866', 'b', 'mastercard', 'b', 'b'),
 ('1212480776', '2014-03-27 12:00:21', '1141656124', 'a', 'mastercard', 'a', 'a'),
-('1365050744', '2014-03-29 12:06:18', '1203174948', 'c', 'mastercard', 'c', 'c');
+('1365050744', '2014-03-29 12:06:18', '1203174948', 'c', 'mastercard', 'c', 'c'),
+('1374009884', '2014-04-06 10:47:26', '1404308567', 'd', 'mastercard', 'd', 'd');
 
 -- --------------------------------------------------------
 
@@ -246,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `purchasedetails` (
   `song_id` varchar(15) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`purcahsedetail_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `purchasedetails`
@@ -255,7 +258,8 @@ CREATE TABLE IF NOT EXISTS `purchasedetails` (
 INSERT INTO `purchasedetails` (`purcahsedetail_id`, `purchase_id`, `song_id`, `price`) VALUES
 (1, '1141656124', 'SNG_000002', '75.00'),
 (2, '1155614866', 'SNG_000004', '30.00'),
-(3, '1203174948', 'SNG_000004', '30.00');
+(3, '1203174948', 'SNG_000004', '30.00'),
+(4, '1404308567', 'SNG_000005', '3.00');
 
 -- --------------------------------------------------------
 
@@ -291,7 +295,8 @@ CREATE TABLE IF NOT EXISTS `purchases` (
 INSERT INTO `purchases` (`purchase_id`, `purchasedate`, `member_id`, `total`) VALUES
 ('1141656124', '2014-03-12 12:00:21', 'MEM_000002', '75.00'),
 ('1155614866', '2014-03-27 12:07:42', 'MEM_000003', '30.00'),
-('1203174948', '2014-03-29 12:06:18', 'MEM_000004', '30.00');
+('1203174948', '2014-03-29 12:06:18', 'MEM_000004', '30.00'),
+('1404308567', '2014-04-06 10:47:26', 'MEM_000005', '3.00');
 
 -- --------------------------------------------------------
 
@@ -319,7 +324,8 @@ INSERT INTO `songs` (`song_id`, `title`, `length`, `album_id`, `song_type`, `fil
 ('SNG_000001', 'Love the way you lie', '3 min', 'ALM_000001', 'Rap', 'Love the way you lie - Eminem.mp3', '100.00', 1),
 ('SNG_000002', 'I Need a doctor', '6 min', 'ALM_000001', 'Rap', 'I need a doctor - Eminem.mp3', '75.00', 0),
 ('SNG_000003', 'My All', '5 min', 'ALM_000002', 'Pop', 'Mariah Carey - My All.mp3', '50.00', 0),
-('SNG_000004', 'Toxic', '3 min', 'ALM_000003', 'Pop', 'Britney Spears - Toxic.mp3', '30.00', 2);
+('SNG_000004', 'Toxic', '3 min', 'ALM_000003', 'Pop', 'Britney Spears - Toxic.mp3', '30.00', 2),
+('SNG_000005', 'I want it that way', '3 min', 'ALM_000005', 'Pop', 'Backstreetboys - I want it that way.mp3', '3.00', 1);
 
 -- --------------------------------------------------------
 
@@ -369,7 +375,8 @@ CREATE TABLE IF NOT EXISTS `votes` (
 INSERT INTO `votes` (`vote_id`, `vote_date`, `member_id`, `song_id`, `messagedetails`) VALUES
 ('VOT_000001', '2014-03-27 00:00:00', 'MEM_000002', 'SNG_000001', 'I Like It'),
 ('VOT_000002', '2014-03-27 00:00:00', 'MEM_000003', 'SNG_000004', ' Very Nice.                 '),
-('VOT_000003', '2014-04-05 00:00:00', 'MEM_000002', 'SNG_000004', '                    ');
+('VOT_000003', '2014-04-05 00:00:00', 'MEM_000002', 'SNG_000004', '                    '),
+('VOT_000004', '2014-04-06 00:00:00', 'MEM_000005', 'SNG_000005', 'Best');
 
 -- --------------------------------------------------------
 
